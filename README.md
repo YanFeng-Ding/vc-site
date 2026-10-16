@@ -1,6 +1,10 @@
 # VC投资人 · 个人网站（全球创投前沿科技自媒体）
 
-纯静态站，push 即自动部署到 GitHub Pages，域名 `vcinvest.d.gv.vc`。
+纯静态站，push 后双通道自动部署：
+- **主通道**：Cloudflare Pages → https://vcinvest.pages.dev（Git 集成，push 即构建）
+- **备份通道**：GitHub Pages → https://yanfeng-ding.github.io/vc-site/
+
+正式域名（DigitalPlat 免费域 + Cloudflare DNS）申领后在 Pages 项目 Custom domains 一键绑定。
 
 ## 目录结构
 
