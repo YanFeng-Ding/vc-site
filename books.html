@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>书单 · 工具推荐 · VC投资人</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .shelf { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .book { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; gap: 16px; }
+  .book:hover { border-color: var(--accent); }
+  .book .cover { width: 64px; height: 88px; border-radius: 6px; background: linear-gradient(160deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .book:nth-child(even) .cover { background: linear-gradient(160deg, var(--accent2) 0%, var(--accent2-deep) 100%); }
+  .book h3 { font-family: var(--serif); font-size: 17px; line-height: 1.4; }
+  .book .author { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+  .book .why { font-size: 13.5px; color: #2A2822; margin-top: 8px; }
+  .book .links { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .book .links a { font-size: 12.5px; padding: 5px 14px; border: 1px solid var(--line); border-radius: 999px; }
+  .book .links a:hover { border-color: var(--accent); color: var(--accent); }
+  .tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .tool { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .tool:hover { border-color: var(--accent2); }
+  .tool h3 { font-family: var(--serif); font-size: 16px; }
+  .tool p { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+  .tool .cat { font-size: 11.5px; letter-spacing: 1px; color: var(--accent2); font-weight: 600; text-transform: uppercase; }
+  .tool .links { margin-top: 10px; }
+  .tool .links a { font-size: 12.5px; color: var(--accent); }
+  .affiliate-note { font-size: 12.5px; color: #A29D91; background: var(--bg-soft); border-radius: 8px; padding: 10px 16px; margin: 20px 0; }
+  @media (max-width: 860px) { .shelf { grid-template-columns: 1fr; } .tools { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">VC<em>投资人</em></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="briefings.html">前沿风向</a>
+      <a href="themes.html">专题</a>
+      <a href="deep-dives.html">深度</a>
+      <a href="books.html" class="active">书单</a>
+      <a href="contact.html">联系</a>
+    </nav>
+    <a href="index.html#subscribe"><button class="sub-btn">订阅</button></a>
+  </div>
+</header>
+
+<section class="hero" style="padding:48px 0 36px">
+  <div class="wrap">
+    <div class="kicker">Reading &amp; Toolkit · 持续更新</div>
+    <h1 style="font-size:36px">书单 · 工具推荐</h1>
+    <p>塑造我投资框架的书，和每天真正在用的工具。只推荐读过、用过、值得时间的。</p>
+  </div>
+</section>
+
+<div class="wrap section" style="max-width:960px">
+  <div class="affiliate-note">📌 页面内的购买链接将逐步接入联盟（Amazon Associates 等）；通过链接购买可能为本站带来少量返佣，不影响推荐立场，价格与您直接购买相同。</div>
+
+  <h2 style="font-family:var(--serif);font-size:22px;margin-bottom:18px">一、风险投资与投资方法论</h2>
+  <div class="shelf">
+    <div class="book">
+      <div class="cover">📈</div>
+      <div>
+        <h3>风险投资史（The Power Law）</h3>
+        <div class="author">Sebastian Mallaby · 著</div>
+        <div class="why">理解 VC 行业权力结构的第一本书：从 Fairchild 到 a16z，机制与人性写得一样好。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">🤝</div>
+      <div>
+        <h3>风险投资交易（Venture Deals）</h3>
+        <div class="author">Brad Feld / Jason Mendelson · 著</div>
+        <div class="why">条款清单教科书：清算优先权、反稀释、董事会控制，讲透每一行的博弈含义。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">🦈</div>
+      <div>
+        <h3>富可敌国（More Money Than God）</h3>
+        <div class="author">Sebastian Mallaby · 著</div>
+        <div class="why">对冲基金黄金时代的群像史，宏观交易者如何理解周期——做二级的必读底本。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">🚀</div>
+      <div>
+        <h3>从0到1（Zero to One）</h3>
+        <div class="author">Peter Thiel / Blake Masters · 著</div>
+        <div class="why">「竞争是失败者的游戏」——垄断、幂律与逆向思考，VC 思维方式的源头之一。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-family:var(--serif);font-size:22px;margin:34px 0 18px">二、科技、周期与思维</h2>
+  <div class="shelf">
+    <div class="book">
+      <div class="cover">💡</div>
+      <div>
+        <h3>创新者的窘境（The Innovator's Dilemma）</h3>
+        <div class="author">Clayton Christensen · 著</div>
+        <div class="why">为什么大公司总被颠覆——看懂技术变革期的一级市场机会分布。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">🧭</div>
+      <div>
+        <h3>穷查理宝典（Poor Charlie's Almanack）</h3>
+        <div class="author">Charlie Munger · 著</div>
+        <div class="why">多元思维模型的源头。投资最后拼的是通识与理性，这本是通识地图。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">⚖️</div>
+      <div>
+        <h3>聪明的投资者（The Intelligent Investor）</h3>
+        <div class="author">Benjamin Graham · 著</div>
+        <div class="why">「市场先生」与安全边际——所有周期判断的底层语法。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">Amazon</a></div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="cover">🌊</div>
+      <div>
+        <h3>价值</h3>
+        <div class="author">张磊 · 著</div>
+        <div class="why">中国本土一级市场的完整叙事：长期主义如何在高瓴落地，争议与启发同样多。</div>
+        <div class="links"><a href="#" title="联盟链接待接入">京东图书</a><a href="#" title="联盟链接待接入">当当</a></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-family:var(--serif);font-size:22px;margin:34px 0 18px">三、工具箱 · 每天在用</h2>
+  <div class="tools">
+    <div class="tool">
+      <div class="cat">资讯 · 研究</div>
+      <h3>Stratechery / The Generalist / The Information</h3>
+      <p>科技与创投信息流的三个层级：战略分析、赛道扫描、一手爆料。</p>
+      <div class="links"><a href="https://stratechery.com" target="_blank">stratechery.com ↗</a></div>
+    </div>
+    <div class="tool">
+      <div class="cat">一级市场数据</div>
+      <h3>Crunchbase</h3>
+      <p>全球融资事件与机构画像的基础数据库，免费档够用。</p>
+      <div class="links"><a href="https://www.crunchbase.com" target="_blank">crunchbase.com ↗</a></div>
+    </div>
+    <div class="tool">
+      <div class="cat">A股数据</div>
+      <h3>巨潮资讯网</h3>
+      <p>官方信源：公告、年报、问询函，A股研究第一站，免费。</p>
+      <div class="links"><a href="http://www.cninfo.com.cn" target="_blank">cninfo.com.cn ↗</a></div>
+    </div>
+    <div class="tool">
+      <div class="cat">知识管理</div>
+      <h3>Obsidian</h3>
+      <p>本地 Markdown + 双链，本站选题库与素材库的管理工具。</p>
+      <div class="links"><a href="https://obsidian.md" target="_blank">obsidian.md ↗</a></div>
+    </div>
+    <div class="tool">
+      <div class="cat">阅读工作流</div>
+      <h3>Readwise</h3>
+      <p>把微信读书/Kindle/文章划线自动汇聚成卡片，重读率翻倍。</p>
+      <div class="links"><a href="https://readwise.io" target="_blank">readwise.io ↗</a></div>
+    </div>
+    <div class="tool">
+      <div class="cat">行情图表</div>
+      <h3>TradingView</h3>
+      <p>跨市场图表与筛选器，免费档覆盖美股/A股基础需求。</p>
+      <div class="links"><a href="https://www.tradingview.com" target="_blank">tradingview.com ↗</a></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 VC投资人</span>
+    <span><a href="contact.html">联系</a><a href="#">RSS</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
