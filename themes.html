@@ -32,45 +32,91 @@
 </section>
 
 <div class="wrap section">
-  <div class="theme-grid">
-    <a class="theme-card" href="#">
+  <div class="theme-grid" id="theme-grid">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">🧠</div>
       <h3>人工智能</h3>
       <p>大模型、AI Infra、Agent 与应用层投资逻辑</p>
-      <div class="count">1 篇 · 最近更新 10-04</div>
+      <div class="count">加载中…</div>
     </a>
-    <a class="theme-card" href="#">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">🚀</div>
       <h3>航天</h3>
       <p>可回收火箭、卫星互联网、深空探测的资本周期</p>
-      <div class="count">1 篇 · 最近更新 10-04</div>
+      <div class="count">加载中…</div>
     </a>
-    <a class="theme-card" href="#">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">🧬</div>
       <h3>生物科技</h3>
       <p>AI 制药、合成生物学、脑机接口的里程碑跟踪</p>
-      <div class="count">0 篇 · 创作排期中</div>
+      <div class="count">加载中…</div>
     </a>
-    <a class="theme-card" href="#">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">🤖</div>
       <h3>机器人</h3>
       <p>人形机器人、灵巧手、具身智能的种子轮图谱</p>
-      <div class="count">0 篇 · 创作排期中</div>
+      <div class="count">加载中…</div>
     </a>
-    <a class="theme-card" href="#">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">⚡</div>
       <h3>新能源</h3>
       <p>核聚变、储能、电网科技的供应链投资地图</p>
-      <div class="count">1 篇 · 最近更新 10-04</div>
+      <div class="count">加载中…</div>
     </a>
-    <a class="theme-card" href="#">
+    <a class="theme-card" href="briefings.html">
       <div class="icon">💰</div>
       <h3>金融科技</h3>
       <p>支付、跨境结算与一级市场基础设施的演变</p>
-      <div class="count">0 篇 · 创作排期中</div>
+      <div class="count">加载中…</div>
     </a>
   </div>
 </div>
+
+<script>
+// 专题自动归类：从 posts.json（后台同步时自动重建）按关键词匹配，实时统计
+(function () {
+  var THEMES = [
+    { key: "人工智能", kws: ["AI", "人工智能", "大模型", "LLM", "Agent", "智能体", "GPT", "OpenAI", "Anthropic", "DeepSeek", "Claude", "Gemini", "Muse", "算力", "芯片", "Infra", "模型", "推理"] },
+    { key: "机器人", kws: ["机器人", "具身", "人形", "灵巧手", "Humanoid", "Robotics", "Winverse"] },
+    { key: "航天", kws: ["航天", "卫星", "太空", "火箭", "轨道", "SpaceX", "星链", "GEO", "LEO"] },
+    { key: "生物科技", kws: ["生物", "医药", "医疗", "基因", "制药", "脑机", "临床"] },
+    { key: "新能源", kws: ["能源", "电池", "储能", "核电", "核聚变", "电力", "光伏", "电网", "氢"] },
+    { key: "金融科技", kws: ["支付", "金融", "结算", "稳定币", "加密", "银行", "Fintech", "保险", "跨境"] }
+  ];
+  var esc = function (s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
+  fetch("posts.json?v=" + Date.now()).then(function (r) { return r.json(); }).then(function (j) {
+    var posts = (j.posts || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    var cards = document.querySelectorAll("#theme-grid .theme-card");
+    THEMES.forEach(function (t, i) {
+      var hits = posts.filter(function (p) {
+        var text = p.title + " " + p.desc;
+        return t.kws.some(function (k) { return text.toLowerCase().indexOf(k.toLowerCase()) >= 0; });
+      });
+      var card = cards[i];
+      if (!card) return;
+      var count = card.querySelector(".count");
+      if (count) {
+        count.textContent = hits.length ? (hits.length + " 篇 · 最近更新 " + hits[0].date.slice(5).replace("-", "/")) : "暂无文章 · 持续跟踪中";
+      }
+      if (hits.length) {
+        var ul = document.createElement("div");
+        ul.style.cssText = "margin-top:10px;font-size:13px;line-height:1.9;text-align:left";
+        hits.slice(0, 3).forEach(function (p) {
+          var a = document.createElement("a");
+          a.href = p.file;
+          a.style.color = "var(--accent)";
+          a.textContent = "· " + p.title.slice(0, 22) + (p.title.length > 22 ? "…" : "");
+          ul.appendChild(a);
+          ul.appendChild(document.createElement("br"));
+        });
+        card.appendChild(ul);
+      }
+    });
+  }).catch(function () {
+    document.querySelectorAll("#theme-grid .count").forEach(function (c) { c.textContent = "—"; });
+  });
+})();
+</script>
 
 <footer>
   <div class="wrap foot">
