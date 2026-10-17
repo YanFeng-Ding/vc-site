@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="太空光伏发电初创 Overview Energy： Pentagon 合同、Meta 的 2 GW 光子期权、频谱约束与 $10 亿门槛——一个深度拆解">
+<meta name="description" content="VC投资人&amp;nbsp;· GLOBAL VC2026-10-04 · 深度 · 约 9 分钟这家太空光伏发电（Space-based Solar Power, ">
 <title>AI太费电，有人把电站搬上了太空 · VC投资人</title>
 <link rel="stylesheet" href="styles.css">
 <style>
   .qr-fake { width: 100px; height: 100px; }
   .src-note { font-size: 13px; color: var(--ink-soft); background: var(--bg-soft); border-radius: 8px; padding: 10px 16px; margin: 22px 0; }
+  .article-body img { max-width: 100%; border-radius: 8px; margin: 6px 0; }
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap nav">
-    <a class="brand" href="index.html"><img class="logo" src="assets/logo.jpg" alt="VC投资人 logo">VC<em>投资人</em></a>
+    <a class="brand" href="index.html">VC<em>投资人</em></a>
     <nav class="nav-links">
       <a href="index.html">首页</a>
       <a href="briefings.html">前沿风向</a>
@@ -27,119 +27,33 @@
     <a href="index.html#subscribe"><button class="sub-btn">订阅</button></a>
   </div>
 </header>
-
 <article class="article-wrap">
-  <div class="kicker">深度 · 航天 / 新能源 / 人工智能</div>
+  <div class="kicker">深度 · VC投资人</div>
   <h1>AI太费电，有人把电站搬上了太空</h1>
-  <div class="article-meta">
-    <span>2026-10-04</span><span>约 9 分钟</span><span>作者：VC投资人</span>
-  </div>
-  <div class="src-note">本文首发于微信公众号「VC投资人」 · <a href="https://mp.weixin.qq.com/s/IjQ4d9Aa1aKH9LTC4mkoDQ" style="color:var(--accent)">阅读公众号原文</a> · 基于公开信息与信源整理，不构成投资建议</div>
-
+  <div class="article-meta"><span>2026-10-04</span><span>约 15 分钟</span><span>来源：VC投资人</span></div>
+  <div class="src-note">本文首发于微信公众号「VC投资人」 · <a href="https://mp.weixin.qq.com/s/IjQ4d9Aa1aKH9LTC4mkoDQ" style="color:var(--accent)">阅读公众号原文</a></div>
   <div class="article-body">
-    <p>这家太空光伏发电（Space-based Solar Power, SBSP）初创公司 Overview Energy 正用卫星把阳光源源不断地搬到地面。</p>
-    <p>它的方案不是新建电站，而是把阳光从 GEO 轨道搬下来，打到全球已建成的地面光伏板上，让同一块光伏板多出 2 到 3 倍的发电量。它不抢地盘、不抢并网，只做一件事：让已经装好的光伏板，一天多亮十几个小时。</p>
-
-    <h2>一、一个信标</h2>
-    <p>2026 年 9 月 30 日，Overview Energy 与五角大楼签署了一份金额保密的合同，交付物不是卫星、不是火箭，而是一个信标。</p>
-    <p>合同里是这么约定的：地面人员在接收站装上一个「归航信标」，卫星找到它、锁定它，然后才开始发射能量；系统必须先探测到一个「active, authenticated beacon」——活跃的、经过认证的信标——才允许开机。这是为了防止信号欺骗和劫持，避免能量束被假信标骗到别的地方去，否则这套太空光伏发电系统对于军方的价值就是负数。</p>
-    <p>本次合作的金主是 OECIF，全称 Operational Energy Capability Improvement Fund，隶属作战能源创新理事会，官方定位是「DoW 美国战争部首屈一指的联合作战能源投资计划」，特点是专投实现商业化之前的首台套技术产品。</p>
-    <p>这个信标不会只待在实验室里——它会直接装进 2028 年 1 月那颗 LEO 演示卫星上，同时成为 2030 年 GEO 星座的地面基线硬件。</p>
-    <p>时间往前推五个月，2026 年 5 月 6 日，Overview 拿到了美国空军 SAF/IE 的第一份合同：一年期研究，金额不到 100 万美元，覆盖三个场景——关岛（潜在冲突区）、阿拉斯加与格陵兰（地理受限）、灾后快速恢复供电。</p>
-    <p>这份合同的金额很小，几乎不值得一提，但场景选择却很诚实。美国军方客户从来不为技术买单，他们为的是「不被卡脖子」价值买单。以关岛场景为例，其意义不在于电有多便宜，而是当军事冲突爆发、后勤补给线被切断时，还有没有电让雷达运转起来。</p>
-    <p>这也是我判断太空太阳能第一个真实付费场景不是数据中心、而是军工客户的原因——只有军方会为「贵十倍但能起作用」付溢价，而数据中心永远只会为「便宜」付钱。</p>
-
-    <h2>二、Meta 买的是权利，不是电</h2>
-    <p>时间再往回倒半年。2026 年 4 月 27 日，Meta 和 Overview 签了一份购买协议：2 GW 光子，折算约 1 GW 电力。</p>
-    <p>大多数媒体报道把它写成「Meta 买了 1 GW 太空电力」，实际上，Meta 签的不是购电合同，是一张行权价未披露的看涨期权。</p>
-    <p>这份合作协议里还有个细节：Overview 自创了一个计价单位，叫 megawatt photon，兆瓦光子。创始人 Berte 的说法是——「as soon as those photons hit something... whether it's solar panel or dirt, you've paid for it」，不管光子落到光伏板上还是落到地上，客户都得付钱。</p>
-    <p>这实际上也讲明白了他们的商业模式：Overview 交付的是发射端的确定性，不是接收端的可用性，风险被转移给了客户一侧。</p>
-    <p>Meta 为什么愿意和 Overview 签这样一份期权协议呢？看看它同期在做什么就明白了。2026 年 1 月 9 日，Meta 宣布了史上最大的企业核电采购动作，合计至多 6.6 GW：Vistra 的 Perry 和 Davis-Besse 全部 2,176 MW 加 433 MW 扩容、TerraPower 八台 Natrium 共 2.8 GW、Oklo 在俄亥俄的 1.2 GW（Meta 预付电费）、Constellation 约 1,100 MW、Sage Geosystems 的 150 MW 地热；同一天还签了 Noon Energy 的 100 GWh 储能。</p>
-    <p>一家科技巨头同时在电力的五个方向上下注，说明它非常清楚 AI 到底有多费电、以及大家有多缺电。</p>
-    <p>Overview 给到 Meta 的销售逻辑不是「我卖给你一座新电站」，而是「give us a gigawatt, we'll tell you where to put it」——我告诉你 1 GW 往哪儿装，卖的是让 Meta 已有的光伏资产能拥有更多发电时间。这是我在这家公司身上看到的真正聪明之处：它没有试图替代地面光伏，而是把自己做成地面光伏的效率提升插件。</p>
-
-    <h2>三、为什么是光</h2>
-    <p>太空太阳能发电（SBSP）原理并不复杂。Overview 选择的技术路线是：</p>
-    <p>1、在地球同步轨道 GEO（约 3.6 万公里高度）部署卫星星座，收集不间断太阳光；<br>
-    2、将光能转化为近红外激光束（约 1000-1100nm 波长）射向地面；<br>
-    3、地面现有光伏电站直接接收激光能量并转换为电能，无需特殊接收设备。</p>
-    <p>其目的是让地面光伏电站变成 24/7 的全天候电源，解决光伏夜间/阴天间歇性问题，且无需配置大规模储能系统。</p>
-    <p>这条路线的关键是最后那一环：地面光伏电站不需要新建任何东西。它的近红外激光束打在光伏板上，转换效率约 50%，而同一块板普通阳光的转化率只有 20% 左右。同一块板，相差将近 2 到 3 倍。这意味着全球已建成的光伏电站，理论上都是它的潜在客户。</p>
-    <p>那他们为什么选近红外激光而不是微波呢？Overview 的系统工程 VP Paul Jaffe 给出的理由是：2–20 GHz 是电磁频谱里的「稀缺资源」，早就被分配给 5G 通信这些用途了。他说，就算你今天已经有一颗在运行的微波太阳能卫星、地面也建好了一座公里级微波接收站，你也开不了机，因为频谱根本没法被分配用于这种太阳能传输。</p>
-    <p>这是一条被严重低估的论点：市场上关于太空光伏发电的争论大多在谈效率和成本，几乎没人谈频谱，而频谱恰恰是一个不随技术进步改变的关键变量——你无法通过把火箭发射做得更便宜来让 ITU 多给你一段频段。</p>
-    <p>这条约束对投资人的含义比对技术团队更直接：竞争格局其实在频谱分配那一刻就已经被部分决定了，后来者要证明的不是自己能不能把电送下来，而是能不能拿到一段别人拿不到的频段——这已不是一个技术问题，而是一个资源禀赋问题。</p>
-
-    <div class="pull">频谱不是一个随技术进步改变的关键变量——竞争格局在频谱分配那一刻就已被部分决定。这不是技术问题，是资源禀赋问题。</div>
-
-    <h2>四、两个数字打架：降 80% 和 10 亿美元</h2>
-    <p>Overview 这门生意可行性的经济学论证有两条，都相当有力。</p>
-    <p>第一条是 CapEx：一个 1 GW 平均发电功率的光储数据中心项目，纯地面方案需要配置 5 GW 光伏加 18–20 小时储能系统，而如果用 Overview，只需要 1.4 GW 光伏加 3 小时储能，CapEx 显著降低约 80%。</p>
-    <p>第二条是摊销：按 Overview 的说法，「只要你的发电容量利用率低于 100%，我们就开始赢——因为我们的 CapEx 是按 100% 利用率摊销的。」太空光伏发电真正的卖点不是便宜，而是它按满负荷摊销，目标 LCOE 是 2035 年做到 $60–100/MWh。</p>
-    <p>据 NASA OTPS 2024《天基太阳能》报告分析：RD1 架构 $610/MWh，RD2 架构 $1,590/MWh，而地面光伏只有 $20–50/MWh，贵了 12 到 80 倍；火箭发射成本占总成本 71%（RD1）和 77%（RD2），整套系统需要把 5,900 吨载荷送上天、多达 2,300 多次发射、总价 $2,760 亿。</p>
-    <p>该报告的敏感性分析承认，只有当发射成本降到 $500/kg、使用寿命延到 15 年、制造学习曲线不高于 85% 这三个条件同时成立时，太空光伏才可能跟 $40–80/MWh 成本的地面光伏竞争。</p>
-    <p>而真正该盯的是这个数字，也是 Overview 自己设的门槛——第一个兆瓦交付的总系统成本低于 10 亿美元。</p>
-
-    <h2>五、钱和名单</h2>
-    <p>这个赛道的融资格局，也值得看一眼。</p>
-    <p>Overview 目前在 SEC Form D 上披露的融资只有两笔，合计 $18,478,017，对外口径是「至今累计融资约 $20M」，2024 年 9 月种子轮估值 $61.7M；创始人 Berte 在今年 6 月的 MCJ 播客上亲口说「We're in the middle of our Series A round right now」——直到这个 6 月还在募 A 轮。</p>
-    <p>对照一下竞品：Cowboy Space（原 Aetherflux，Robinhood 联创 Baiju Bhatt 创办）累计融资约 $3.65 亿，B 轮 $2.75 亿、估值 $20 亿；Starcloud 融资约 $4.5 亿、估值 $23 亿，NVIDIA 投了 $2,500 万；Star Catcher 累计融资 $88M。</p>
-    <p>这里有意思的是，拿钱最多的两家天上什么都没有，而钱最少的那家——Overview——已经从 5,000 米高空往地面送过一次电了。</p>
-    <p>2025 年 11 月，Overview 在宾夕法尼亚上空用一架 Cessna 赛斯纳涡桨飞机完成了首次移动平台无线传能：5,000 米高度，侧风 70 节，向 5 公里外的地面接收器送电，实验室里已经验证到千瓦级。他们还往飞机上那套测试系统里塞了 75 磅 Otter Pop 冰棍给激光器降温——创始人 Berte 的原话是，「a dollar a pound is a lot better than some crazy expensive defense popsicle」。</p>
-    <p>我喜欢这个细节，是因为它证明了这家公司真的在飞，而不是还停在 PPT 上。</p>
-    <p>再看一下投资机构名单：a16z、Lightspeed、Founders Fund、Lux、Eclipse、General Catalyst、Type One Ventures、Space Capital 这些美国头部 VC 一家都没有出现，领投的是 Lowercarbon Capital、Prime Movers Lab、Engine Ventures，跟投名单里有 EQT Foundation、Earthrise Ventures、Aurelia Institute、Rice Investment Group。</p>
-    <p>一线基金集体缺席这类项目通常只有两种解释：要么他们看过并否决了，要么是这个案子小到还没进他们的扫描范围。我更倾向于后者——$61.7M 的种子轮估值对 a16z 这种体量的头部机构来说意义不大，但对一个判断来说，可能很便宜。</p>
-    <p>真正让我觉得不该低估 Overview 的，是其公司顾问委员会那张名单：Jim Bridenstine（美国前 NASA 局长）、Mike Griffin（美国前 NASA 局长、前国防部研发副部长）、Joseph Kelliher（前 FERC 主席、NextEra 监管 EVP）、Lisa Porter（前 IARPA 主任）、Jim Watzin（前 NASA 火星探索计划主任），加上全职加入的 Paul Jaffe。</p>
-    <p>一家 25 人的小创业公司，居然把两位前 NASA 局长、一位前 FERC 主席和一位前 IARPA 主任凑到了一张顾问桌上。这份名单不是装饰品——因为太空光伏的瓶颈从来不是技术限制，而是频谱资源、是并网、是军方采购流程。</p>
-    <p>把这张顾问委员会名单和上面提到的频谱论证放在一起看，可以得到一个结论：Overview 的核心壁垒可能不在任何一项可测量的技术指标上，而在它提前占住了真正决定项目能否落地的那几个战略位置。</p>
-
-    <h2>六、58 年，四轮评估，唯一变了的东西</h2>
-    <p>早在 1968 年 Peter Glaser 就提出了太空发电构想；1979 年 NASA/DOE 拿出参考系统，60 颗卫星、每颗 5 GW，总成本高得离谱；1980–81 年 NRC 与 OTA 联合评估，结论八个字——技术可行，经济不可行，项目终止。1995–97 年 NASA「Fresh Look」重新认为可行，但没立项；2009 年 Solaren 与 PG&E 签了 200 MW 太空电力 PPA，后来作废；直到 2024 年 NASA 报告还是说贵 12–80 倍。</p>
-    <p>半个多世纪，四轮官方评估，结论一次都没变过。</p>
-    <p>实际上，58 年来太空光伏发电的技术没变过，变的只是把载荷运上太空的每公斤成本。之前的航天飞机平均成本约 $54,000/kg，马斯克 SpaceX 的 Falcon 9 把复用成本做到了约 $1,500–3,000/kg，而 Starship 的目标更是大幅降低至 &lt;$100–200/kg。</p>
-    <p>现在，我们已经从 $54,000 走到了 $1,500，但剩下那最后一段是最难的一段，而且还没走完。</p>
-
-    <h2>七、这场电力焦虑里，真正稀缺的是什么</h2>
-    <p>把镜头拉远一点，让我们看看为什么是现在。</p>
-    <p>据 LBNL《Queued Up: 2026 Edition》报告，目前美国并网排队约 2,060 GW，约 8,200 个项目，从申请到商业运行的中位时间是 61 个月；而且 2000–2020 年间申请的容量，最终只有约 13% 投运，约 75% 被撤销。</p>
-    <p>硬件端的瓶颈更明显：大型电力变压器交期长达 128 周，发电机升压变压器 144 周且已增加到 160 周以上；GE Vernova 的燃气轮机有 116 GW 积压订单，交付排到 2029–2031 年，涡轮机价格到 2027 年底预计 $600/kW，比 2019 年涨了 195%。</p>
-    <p>与此同时，电力需求侧还在不断加速。Nvidia 的 GB200 NVL72 功率约 120 kW/机架，GB300 约 132–140 kW，Vera Rubin 190–230 kW，最新的 Rubin Ultra 更是高达 600 kW。据 IEA 数据，2025 年全球数据中心用电约 485 TWh，2030 年约 950 TWh；2025 年超大规模厂商资本开支超过 $4,000 亿，2026 年预计再增 75%。</p>
-    <p>价格锚在哪里？核电的 PPA 可以是个参照：Microsoft–Constellation 约 $98–115/MWh，Meta–Vistra 约 $101/MWh，PJM 2026 上半年批发均价约 $114.50/MWh。因此，Overview 创始人 Berte 提出的 $60–100/MWh 目标，其实就是冲着这个区间去的。</p>
-    <div class="pull">真正稀缺的不是发电方式，是在 61 个月并网排队等待之外拿到电的能力。太空光伏的竞争对手根本不是地面光伏，而是「等待」——而「等待」的价格，已经被 PJM 那根两年涨了 11.5 倍的发电容量拍卖曲线明码标价了。</div>
-
-    <h2>最后：我的三条看法</h2>
-    <p>第一，Overview 的实质不是太空太阳能公司，而是一家「存量光伏资产利用率提升」公司；它卖的不是卫星，而是让已经建好的光伏板一天多亮十几个小时，而这个商业定位比它的技术路线更值得研究。</p>
-    <p>第二，2030 年估计 Overview 很难交付 GEO 轨道的兆瓦级系统：单星跨度 150–180 米、8–10 吨，而目前在轨最大卫星跨度约 30–45 米——这不是迭代，是跳代；真正的考验是 2028 年 1 月要上天的那颗 LEO 演示卫星，只要它能证明「认证信标 → 锁定 → 稳定送电」这个闭环在轨道上成立，这个故事就还能往下讲。</p>
-    <p>第三，这家公司最大的风险不在技术研发，在融资节奏：$18.5M 的累计融资要撑到 2030 年的 GEO 兆瓦级，而它的 A 轮直到 2026 年 6 月还没关闭；这条赛道里，先死的通常不是技术最差的那家，而是现金流断得最早的。</p>
-    <p class="src-note">本文基于公开信息与信源整理，不构成投资建议。数据截至 2026-10-04，如有更新以官方披露为准。</p>
+<p>VC投资人&nbsp;· GLOBAL VC</p><p>2026-10-04 · 深度 · 约 9 分钟</p><img><p>这家太空光伏发电（Space-based Solar Power, SBSP）初创公司 Overview Energy 正用卫星把阳光源源不断地搬到地面。</p><p>它的方案不是新建电站，而是把阳光从 GEO 轨道搬下来，打到全球已建成的地面光伏板上，让同一块光伏板多出 2 到 3 倍的发电量。</p><p>它不抢地盘、不抢并网，只做一件事：让已经装好的光伏板，一天多亮十几个小时。</p><p>1&nbsp; / &nbsp;一个信标</p><p>ONE BEACON</p><p>2026 年 9 月 30 日，Overview Energy 与五角大楼签署了一份金额保密的合同，交付物不是卫星、不是火箭，而是一个信标。</p><p>合同里是这么约定的：地面人员在接收站装上一个「归航信标」，卫星找到它、锁定它，然后才开始发射能量；系统必须先探测到一个「active, authenticated beacon」——活跃的、经过认证的信标——才允许开机。</p><p>这是为了防止信号欺骗和劫持，避免能量束被假信标骗到别的地方去，否则这套太空光伏发电系统对于军方的价值就是负数。</p><p>本次合作的金主是 OECIF，全称 Operational Energy Capability Improvement Fund，隶属作战能源创新理事会，官方定位是「DoW 美国战争部首屈一指的联合作战能源投资计划」，特点是专投实现商业化之前的首台套技术产品。</p><p>这个信标不会只待在实验室里——它会直接装进 2028 年 1 月那颗 LEO 演示卫星上，同时成为 2030 年 GEO 星座的地面基线硬件。</p><p>时间往前推五个月， 2026 年 5 月 6 日，Overview 拿到了美国空军 SAF/IE 的第一份合同：一年期研究，金额不到 100 万美元，覆盖三个场景——关岛（潜在冲突区）、阿拉斯加与格陵兰（地理受限）、灾后快速恢复供电。</p><p>这份合同的金额很小，几乎不值得一提，但场景选择却很诚实。</p><p>美国军方客户从来不为技术买单，他们为的是「不被卡脖子」价值买单。</p><p>以关岛场景为例，其意义不在于电有多便宜，而是当军事冲突爆发、后勤补给线被切断时，还有没有电让雷达运转起来。</p><p>这也是我判断太空太阳能第一个真实付费场景不是数据中心、而是军工客户的原因——只有军方会为「贵十倍但能起作用」付溢价，而数据中心永远只会为「便宜」付钱。</p><p>2&nbsp; / &nbsp;Meta 买的是权利，不是电</p><p>META BOUGHT THE RIGHT, NOT THE ELECTRICITY</p><p>时间再往回倒半年。 2026 年 4 月 27 日，Meta 和 Overview 签了一份购买协议： 2 GW 光子，折算约 1 GW 电力。</p><p>大多数媒体报道把它写成「Meta 买了 1 GW 太空电力」，实际上，Meta 签的不是购电合同，是一张行权价未披露的看涨期权。</p><p>这份合作协议里还有个细节：Overview 自创了一个计价单位，叫 megawatt photon，兆瓦光子。</p><p>创始人 Berte 的说法是——「as soon as those photons hit something... whether it's solar panel or dirt, you've paid for it」，不管光子落到光伏板上还是落到地上，客户都得付钱。</p><p>这实际上也讲明白了他们的商业模式：Overview 交付的是发射端的确定性，不是接收端的可用性，风险被转移给了客户一侧。</p><p>Meta 为什么愿意和 Overview 签这样一份期权协议呢？看看它同期在做什么就明白了。</p><p>2026 年 1 月 9 日，Meta 宣布了史上最大的企业核电采购动作，合计至多 6.6 GW：Vistra 的 Perry 和 Davis-Besse 全部 2,176 MW 加 433 MW 扩容、TerraPower 八台 Natrium 共 2.8 GW、Oklo 在俄亥俄的 1.2 GW （Meta 预付电费）、Constellation 约 1,100 MW、Sage Geosystems 的 150 MW 地热；同一天还签了 Noon Energy 的 100 GWh 储能。</p><p>一家科技巨头同时在电力的五个方向上下注，说明它非常清楚 AI 到底有多费电、以及大家有多缺电。</p><p>Overview 给到Meta 的销售逻辑不是「我卖给你一座新电站」，而是「give us a gigawatt, we'll tell you where to put it」——我告诉你 1 GW 往哪儿装，卖的是让 Meta 已有的光伏资产能拥有更多发电时间。</p><p>这是我在这家公司身上看到的真正聪明之处：它没有试图替代地面光伏，而是把自己做成地面光伏的效率提升插件。</p><p>3&nbsp; / &nbsp;为什么是光</p><p>WHY LIGHT, NOT MICROWAVES</p><p>太空太阳能发电（Space-based Solar Power, SBSP）原理并不复杂。Overview 选择的技术路线是：</p><p>1、在地球同步轨道 GEO （约 3.6 万公里高度）部署卫星星座，收集不间断太阳光</p><p>2、将光能转化为近红外激光束（约 1000-1100nm 波长）射向地面</p><p>3、地面现有光伏电站直接接收激光能量并转换为电能，无需特殊接收设备</p><p>其目的是让地面光伏电站变成 24/7 的全天候电源，解决光伏夜间/阴天间歇性问题，且无需配置大规模储能系统。</p><p>这条路线的关键是最后那一环：地面光伏电站不需要新建任何东西。它的近红外激光束打在光伏板上，转换效率约 50%，而同一块板普通阳光的转化率只有 20% 左右。同一块板，相差将近 2 到 3 倍。这意味着全球已建成的光伏电站，理论上都是它的潜在客户。</p><p>那他们为什么选近红外激光而不是微波呢？</p><p>Overview 的系统工程 VP Paul Jaffe 给出的理由是： 2–20 GHz 是电磁频谱里的「稀缺资源」，早就被分配给 5G 通信这些用途了。他说，就算你今天已经有一颗在运行的微波太阳能卫星、地面也建好了一座公里级微波接收站，你也开不了机，因为频谱根本没法被分配用于这种太阳能传输。</p><p>这是一条被严重低估的论点：市场上关于太空光伏发电的争论大多在谈效率和成本，几乎没人谈频谱，而频谱恰恰是一个不随技术进步改变的关键变量——你无法通过把火箭发射做得更便宜来让 ITU 多给你一段频段。</p><p>这条约束对投资人的含义比对技术团队更直接：竞争格局其实在频谱分配那一刻就已经被部分决定了，后来者要证明的不是自己能不能把电送下来，而是能不能拿到一段别人拿不到的频段——这已不是一个技术问题，而是一个资源禀赋问题。</p><p>4&nbsp; / &nbsp;两个数字打架：降 80% 和10亿美元</p><p>TWO NUMBERS IN CONFLICT: −80% VS. $1 BILLION</p><p>Overview 这门生意可行性的经济学论证有两条，都相当有力。</p><p>第一条是 CapEx：一个 1 GW 平均发电功率的光储数据中心项目，纯地面方案需要 配置5 GW 光伏加 18–20 小时储能系统，而如果用 Overview，只需要 1.4 GW 光伏加 3 小时储能，CapEx 显著降低约 80%。</p><p>第二条是摊销：按 Overview 的说法，「只要你的发电容量利用率低于 100%，我们就开始赢——因为我们的 CapEx 是按 100% 利用率摊销的。」太空光伏发电真正的卖点不是便宜，而是它按满负荷摊销，目标 LCOE 是 2035 年做到 $60–100/MWh。</p><p>据 NASA OTPS 2024 《天基太阳能》报告分析：RD1 架构 $610/MWh，RD2 架构 $1,590/MWh，而地面光伏只有 $20–50/MWh，贵了 12 到 80 倍；火箭发射成本占总成本 71% （RD1）和 77% （RD2），整套系统需要把 5,900 吨载荷送上天、多达 2,300 多次发射、总价 $2,760 亿。</p><p>该报告的敏感性分析承认，只有当发射成本降到 $500/kg、使用寿命延到 15 年、制造学习曲线不高于 85% 这三个条件同时成立时，太空光伏才可能跟 $40–80/MWh 成本的地面光伏竞争。</p><p>而真正该盯的是这个数字，也是 Overview 自己设的门槛——第一个兆瓦交付的总系统成本低于 $10亿美元。</p><p>5&nbsp; / &nbsp;钱和名单</p><p>THE MONEY AND THE LIST</p><p>这个赛道的融资格局，也值得看一眼。</p><p>Overview 目前在 SEC Form D 上披露的融资只有两笔，合计 $18,478,017，对外口径是「至今累计融资约 $20M」， 2024 年 9 月种子轮估值 $61.7M；创始人Berte 在今年 6 月的 MCJ 播客上亲口说「We're in the middle of our Series A round right now」——直到这个6 月还在募 A 轮。</p><p>对照一下竞品：Cowboy Space&nbsp;（原 Aetherflux，Robinhood 联创 Baiju Bhatt 创办）累计融资约 $3.65 亿，B 轮 $2.75 亿、估值 $20 亿；Starcloud&nbsp;融资约 $4.5 亿、估值 $23 亿，NVIDIA 投了 $2,500 万；Star Catcher&nbsp;累计融资 $88M。</p><p>这里有意思的是，拿钱最多的两家天上什么都没有，而钱最少的那家——Overview——已经从 5,000 米高空往地面送过一次电了。</p><p>2025 年 11 月，Overview 在宾夕法尼亚上空用一架 Cessna 赛斯纳涡桨飞机完成了首次移动平台无线传能： 5,000 米高度，侧风 70 节，向 5 公里外的地面接收器送电，实验室里已经验证到千瓦级。</p><p>他们还往飞机上那套测试系统里塞了 75 磅 Otter Pop 冰棍给激光器降温——创始人 Berte 的原话是，「a dollar a pound is a lot better than some crazy expensive defense popsicle」。</p><p>我喜欢这个细节，是因为它证明了这家公司真的在飞，而不是还停在PPT上。</p><p>再看一下投资机构名单：a16z、Lightspeed、Founders Fund、Lux、Eclipse、General Catalyst、Type One Ventures、Space Capital 这些美国头部 VC 一家都没有出现，领投的是 Lowercarbon Capital、Prime Movers Lab、Engine Ventures，跟投名单里有 EQT Foundation、Earthrise Ventures、Aurelia Institute、Rice Investment Group。</p><p>一线基金集体缺席这类项目通常只有两种解释：要么他们看过并否决了，要么是这个案子小到还没进他们的扫描范围。</p><p>我更倾向于后者——$61.7M 的种子轮估值对 a16z 这种体量的头部机构来说意义不大，但对一个判断来说，可能很便宜。</p><p>真正让我觉得不该低估 Overview 的，是其公司顾问委员会那张名单：</p><p>Jim Bridenstine （美国前 NASA 局长）、Mike Griffin （美国前 NASA 局长、前国防部研发副部长）、Joseph Kelliher （前 FERC 主席、NextEra 监管 EVP）、Lisa Porter （前 IARPA 主任）、Jim Watzin （前 NASA 火星探索计划主任），加上全职加入的 Paul Jaffe。</p><p>一家 25 人的小创业公司，居然把两位前 NASA 局长、一位前 FERC 主席和一位前 IARPA 主任凑到了一张顾问桌上。</p><p>这份名单不是装饰品——因为太空光伏的瓶颈从来不是技术限制，而是频谱资源、是并网、是军方采购流程。</p><p>把这张顾问委员会名单和上面提到的频谱论证放在一起看，可以得到一个结论：Overview 的核心壁垒可能不在任何一项可测量的技术指标上，而在它提前占住了真正决定项目能否落地的那几个战略位置。</p><p>6&nbsp; / &nbsp;58 年，四轮评估，唯一变了的东西</p><p>58 YEARS, FOUR EVALUATIONS, ONE THING CHANGED</p><p>早在1968 年 Peter Glaser就提出了太空发电构想； 1979 年 NASA/DOE 拿出参考系统， 60 颗卫星、每颗 5 GW，总成本高得离谱； 1980–81 年 NRC 与 OTA 联合评估，结论八个字——技术可行，经济不可行，项目终止。</p><p>1995–97 年 NASA 「Fresh Look」重新认为可行，但没立项； 2009 年 Solaren 与 PG&amp;E 签了 200 MW 太空电力 PPA，后来作废； 直到2024 年 NASA 报告还是说贵 12–80 倍。</p><p>半个多世纪，四轮官方评估，结论一次都没变过。</p><p>实际上，58 年来太空光伏发电的技术没变过，变的只是把载荷运上太空的每公斤成本。</p><p>之前的航天飞机平均成本约 $54,000/kg，马斯克 SpaceX 的 Falcon 9 把复用成本做到了约 $1,500–3,000/kg，而 Starship 的目标更是大幅降低至 &lt;$100–200/kg。</p><p>现在，我们已经从 $54,000 走到了 $1,500，但剩下那最后一段是最难的一段，而且还没走完。</p><p>7&nbsp; / &nbsp;这场电力焦虑里，真正稀缺的是什么</p><p>WHAT IS ACTUALLY SCARCE IN THIS POWER ANXIETY</p><p>把镜头拉远一点，让我们看看为什么是现在。</p><p>据 LBNL 《Queued Up: 2026 Edition》报告，目前美国并网排队约 2,060 GW，约 8,200 个项目，从申请到商业运行的中位时间是61 个月；而且 2000–2020 年间申请的容量，最终只有约 13% 投运，约 75% 被撤销。</p><p>硬件端的瓶颈更明显：大型电力变压器交期长达 128 周，发电机升压变压器 144 周且已增加到 160 周以上；GE Vernova 的燃气轮机有 116 GW 积压订单，交付排到 2029–2031年，涡轮机价格到 2027 年底预计 $600/kW，比 2019 年涨了 195%。</p><p>与此同时，电力需求侧还在不断加速。</p><p>行业龙头Nvidia 的 GB200 NVL72 功率约 120 kW/机架，GB300 约 132–140 kW，Vera Rubin 190–230 kW，最新的Rubin Ultra 更是高达600 kW。</p><p>据 IEA 数据， 2025 年全球数据中心用电约 485 TWh， 2030 年约 950 TWh； 2025 年超大规模厂商资本开支超过 $4,000 亿， 2026 年预计再增 75%。</p><p>价格锚在哪里？核电的 PPA 可以是个参照：Microsoft–Constellation 约 $98–115/MWh，Meta–Vistra 约$101/MWh，PJM 2026 上半年批发均价约 $114.50/MWh。因此，Overview创始人Berte提出的 $60–100/MWh 目标，其实就是冲着这个区间去的。</p><p>真正稀缺的不是发电方式，是在 61 个月并网排队等待之外拿到电的能力。</p><p>如果这句话成立，那么太空光伏的竞争对手根本不是地面光伏，而是「等待」；而「等待」的价格，已经被 PJM 那根两年涨了 11.5 倍的发电容量拍卖曲线明码标价了。</p><p>——</p><p>最后，总结一下，我的三条看法：</p><p>第一，Overview 的实质不是太空太阳能公司，是一家「存量光伏资产利用率提升」公司；它卖的不是卫星，而是让已经建好的光伏板一天多亮十几个小时，而这个商业定位比它的技术路线更值得研究。</p><p>第二， 2030 年估计Overview&nbsp;很难交付 GEO 轨道的兆瓦级系统：单星跨度 150–180 米、 8–10 吨，而目前在轨最大卫星跨度约 30–45 米——这不是迭代，是跳代；真正的考验是 2028 年 1 月要上天的那颗 LEO 演示卫星，只要它能证明「认证信标 → 锁定 → 稳定送电」这个闭环在轨道上成立，这个故事就还能往下讲。</p><p>第三，这家公司最大的风险不在技术研发，在融资节奏： $18.5M 的累计融资要撑到 2030 年的 GEO 兆瓦级，而它的A 轮直到 2026 年 6 月还没关闭；这条赛道里，先死的通常不是技术最差的那家，而是现金流断得最早的。</p><p>&nbsp;</p><p>本文基于公开信息与信源整理，不构成投资建议。数据截至 2026-10-04，如有更新以官方披露为准。</p><p>关注 VC投资人 · 一起看全球前沿的一级市场</p><br>
   </div>
-
-  <!-- 打赏 -->
   <div class="action-bar">
     <div class="tip-box">
       <h4>如果这篇文章对你有价值</h4>
       <p>微信扫码赞赏 · 金额随意，全部直达作者</p>
       <div class="qr-row">
         <div class="qr">
-          <div class="img" style="padding:6px">
-            <img src="assets/appreciation-code.png" alt="微信赞赏码" style="width:116px;height:116px;border-radius:8px">
-          </div>
+          <div class="img" style="padding:6px"><img src="assets/appreciation-code.png" alt="微信赞赏码" style="width:116px;height:116px;border-radius:8px"></div>
           <div class="label">微信赞赏码</div>
         </div>
       </div>
       <a class="bmc" href="#">☕ 海外读者：Buy Me a Coffee</a>
     </div>
-
-    <!-- 转发 -->
     <div class="share-row">
       <span class="lbl">转发：</span>
       <button class="share-btn" onclick="navigator.clipboard.writeText(location.href).then(()=>alert('链接已复制'))">复制链接</button>
-      <button class="share-btn" onclick="alert('微信内打开本页可使用右上角菜单分享到朋友圈/好友')">微信</button>
       <button class="share-btn" onclick="window.open('https://mp.weixin.qq.com/s/IjQ4d9Aa1aKH9LTC4mkoDQ')">公众号原文</button>
       <button class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(document.title))">X / Twitter</button>
       <button class="share-btn" onclick="window.open('mailto:?subject='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(location.href))">邮件</button>
     </div>
-
-    <!-- 评论：giscus（GitHub Discussions） -->
     <div class="comment-box">
       <h4>评论</h4>
       <script src="https://giscus.app/client.js"
@@ -157,11 +71,10 @@
         crossorigin="anonymous"
         async>
       </script>
-      <div class="comment-hint">评论基于 GitHub Discussions（giscus），需 GitHub 账号登录。首次部署需仓库安装 giscus App 后生效。</div>
+      <div class="comment-hint">评论基于 GitHub Discussions（giscus），需 GitHub 账号登录。</div>
     </div>
   </div>
 </article>
-
 <footer>
   <div class="ad-slot" style="margin-bottom:26px"><a href="books.html" style="color:var(--accent);font-weight:600">📚 书单 · 工具推荐 · 持续更新（购买链接含联盟返佣入口）</a></div>
   <div class="wrap foot">
@@ -169,7 +82,6 @@
     <span><a href="contact.html">联系</a><a href="#">RSS</a></span>
   </div>
 </footer>
-
 <script>
 fetch('/api/view?path=' + encodeURIComponent(location.pathname), {method:'POST'}).catch(()=>{});
 </script>
