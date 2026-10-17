@@ -159,10 +159,17 @@ footer { border-top: 1px solid var(--line); margin-top: 56px; padding: 32px 0 48
 .foot a { color: var(--ink-soft); margin-left: 18px; }
 .foot a:hover { color: var(--accent); }
 
+.menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; font-size: 17px; line-height: 1; padding: 6px 11px; cursor: pointer; color: var(--ink); flex-shrink: 0; }
+.menu-btn:hover { border-color: var(--accent); }
+
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; }
   .theme-grid { grid-template-columns: 1fr 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 32px; }
-  .nav-links { display: none; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; padding: 8px 24px 14px; gap: 0; z-index: 30; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 11px 0; border-bottom: 1px solid var(--bg-soft); }
+  .nav-links a:last-child { border-bottom: 0; }
+  .menu-btn { display: inline-block; }
 }
