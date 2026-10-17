@@ -9,7 +9,7 @@
   .shelf { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .book { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; gap: 16px; }
   .book:hover { border-color: var(--accent); }
-  .book .cover { width: 64px; height: 88px; border-radius: 6px; background: linear-gradient(160deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .book .cover { width: 64px; height: 88px; border-radius: 6px; flex-shrink: 0; }
   .book:nth-child(even) .cover { background: linear-gradient(160deg, var(--accent2) 0%, var(--accent2-deep) 100%); }
   .book h3 { font-family: var(--serif); font-size: 17px; line-height: 1.4; }
   .book .author { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
@@ -60,7 +60,7 @@
   <h2 style="font-family:var(--serif);font-size:22px;margin-bottom:18px">一、风险投资与投资方法论</h2>
   <div class="shelf">
     <div class="book">
-      <div class="cover">📈</div>
+      <div class="cover"><img src="assets/covers/power-law.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>风险投资史（The Power Law）</h3>
         <div class="author">Sebastian Mallaby · 著</div>
@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">🤝</div>
+      <div class="cover"><img src="assets/covers/venture-deals.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>风险投资交易（Venture Deals）</h3>
         <div class="author">Brad Feld / Jason Mendelson · 著</div>
@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">🦈</div>
+      <div class="cover"><img src="assets/covers/more-money.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>富可敌国（More Money Than God）</h3>
         <div class="author">Sebastian Mallaby · 著</div>
@@ -87,7 +87,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">🚀</div>
+      <div class="cover"><img src="assets/covers/zero-to-one.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>从0到1（Zero to One）</h3>
         <div class="author">Peter Thiel / Blake Masters · 著</div>
@@ -100,7 +100,7 @@
   <h2 style="font-family:var(--serif);font-size:22px;margin:34px 0 18px">二、科技、周期与思维</h2>
   <div class="shelf">
     <div class="book">
-      <div class="cover">💡</div>
+      <div class="cover"><img src="assets/covers/innovator.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>创新者的窘境（The Innovator's Dilemma）</h3>
         <div class="author">Clayton Christensen · 著</div>
@@ -109,7 +109,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">🧭</div>
+      <div class="cover"><img src="assets/covers/poor-charlie.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>穷查理宝典（Poor Charlie's Almanack）</h3>
         <div class="author">Charlie Munger · 著</div>
@@ -118,7 +118,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">⚖️</div>
+      <div class="cover"><img src="assets/covers/intelligent-investor.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>聪明的投资者（The Intelligent Investor）</h3>
         <div class="author">Benjamin Graham · 著</div>
@@ -127,7 +127,7 @@
       </div>
     </div>
     <div class="book">
-      <div class="cover">🌊</div>
+      <div class="cover"><img src="assets/covers/value-zhanglei.jpg" alt="书封" style="width:64px;height:88px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.12)"></div>
       <div>
         <h3>价值</h3>
         <div class="author">张磊 · 著</div>
