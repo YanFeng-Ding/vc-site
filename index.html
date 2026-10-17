@@ -26,7 +26,7 @@
 <section class="hero">
   <div class="wrap">
     <div class="kicker">Global Frontier Capital · Weekly</div>
-    <h1>解读全球创投行业<br>成功投资人方法论与前沿科技趋势</h1>
+    <h1 data-full="解读全球创投行业成功投资人方法论与前沿科技趋势">解读全球创投行业<br>成功投资人方法论与前沿科技趋势</h1>
     <p>每周跟踪全球顶尖 VC 的下注方向、融资动态与赛道逻辑。前沿风向速递、专题赛道拆解、深度长文研究。</p>
     <form class="sub-form" id="subscribe" onsubmit="return handleSubscribe(event)">
       <input type="email" name="email" placeholder="输入邮箱，订阅每周简报" required data-subscribe-email>
@@ -155,6 +155,36 @@
     h += "</div>";
     box.innerHTML = h;
   }).catch(function () {});
+})();
+</script>
+
+<script>
+// 主标题自适应断行：按实际字宽计算每行容量；两行时第二行略长 2-3 字；宽屏单行、窄屏自然换行
+(function () {
+  var h = document.querySelector(".hero h1");
+  if (!h) return;
+  var FULL = h.getAttribute("data-full");
+  var ctx = document.createElement("canvas").getContext("2d");
+  function layout() {
+    var cs = getComputedStyle(h);
+    ctx.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
+    var charW = ctx.measureText("\u6295").width || parseFloat(cs.fontSize);
+    var cpl = Math.floor(h.clientWidth / charW);
+    if (cpl >= FULL.length + 1) { h.textContent = FULL; return; }
+    if (cpl >= 13) {
+      var p = Math.round((FULL.length - 2.5) / 2); /* 23 字 → 10 | 13 */
+      h.textContent = "";
+      h.appendChild(document.createTextNode(FULL.slice(0, p)));
+      h.appendChild(document.createElement("br"));
+      h.appendChild(document.createTextNode(FULL.slice(p)));
+      return;
+    }
+    h.textContent = FULL;
+  }
+  layout();
+  var t;
+  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(layout, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
 })();
 </script>
 </body>
