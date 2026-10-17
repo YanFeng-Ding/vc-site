@@ -38,6 +38,21 @@ export async function onRequest(context) {
     return new Response(JSON.stringify(out), { headers: JSON_HEADERS });
   }
 
+  // 后台读取订阅者列表（_subscribers.md）
+  if (path === "/api/subscribers" && request.method === "GET") {
+    if (!authed) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: JSON_HEADERS });
+    if (!env.GH_TOKEN) return new Response(JSON.stringify({ error: "GH_TOKEN 未配置" }), { status: 500, headers: JSON_HEADERS });
+    const r = await fetch("https://api.github.com/repos/YanFeng-Ding/vc-site/contents/_subscribers.md", {
+      headers: { "Authorization": "Bearer " + env.GH_TOKEN, "Accept": "application/vnd.github+json", "User-Agent": "vc-site-admin" }
+    });
+    if (r.status === 404) return new Response(JSON.stringify({ ok: true, list: "", count: 0 }), { headers: JSON_HEADERS });
+    if (!r.ok) return new Response(JSON.stringify({ error: "读取失败 " + r.status }), { status: 500, headers: JSON_HEADERS });
+    const j = await r.json();
+    const text = atob(j.content.replace(/\n/g, ""));
+    const rows = text.split("\n").filter(l => /^- /.test(l));
+    return new Response(JSON.stringify({ ok: true, list: text, count: rows.length }), { headers: JSON_HEADERS });
+  }
+
   // 贴链接入队（写入仓库 _queue.md，触发每日自动同步）
   if (path === "/api/links" && request.method === "POST") {
     if (!authed) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: JSON_HEADERS });
