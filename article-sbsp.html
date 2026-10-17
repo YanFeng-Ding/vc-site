@@ -170,5 +170,8 @@
   </div>
 </footer>
 
+<script>
+fetch('/api/view?path=' + encodeURIComponent(location.pathname), {method:'POST'}).catch(()=>{});
+</script>
 </body>
 </html>
