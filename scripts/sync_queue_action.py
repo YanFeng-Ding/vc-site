@@ -156,8 +156,15 @@ def main():
     if not entries:
         print("queue: empty"); return
     print(f"queue: {len(entries)} entries")
+    # URL 去重：站内已有同源链接、或本批重复的条目直接跳过
+    seen_urls = set()
+    for f in SITE.glob("*.html"):
+        seen_urls.update(re.findall(r'https://mp\.weixin\.qq\.com/[^"\s<]+', f.read_text(encoding="utf-8")))
     ok_files, failed, timeline = [], [], []
     for idx, (qdate, section, url) in enumerate(entries, 1):
+        if url in seen_urls:
+            print(f"[{idx}] SKIP 站内已有 {url}"); continue
+        seen_urls.add(url)
         try:
             page = fetch(url)
             title, raw_time, content_html = extract(page)
