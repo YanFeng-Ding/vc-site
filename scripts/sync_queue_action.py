@@ -78,7 +78,13 @@ def meta_extract(page, fallback_date):
         body = desc
     body = body.replace("\\n", "\n").replace("\\x0a", "\n")
     if len(body.strip()) < 30:
-        return None
+        # 音频/极短帖：og:title 只有标题（≥6 字）时降级为标题索引卡，避免队列卡死
+        if not m_t or len(body.strip()) < 6:
+            return None
+        paras = [body.strip(), "本条为公众号音频/短讯节目，完整内容请点击上方「阅读公众号原文」收听或查看。"]
+        clean_html = "".join(f"<p>{html.escape(x)}</p>" for x in paras)
+        title = paras[0][:60]
+        return title, date, clean_html, body
     m = re.search(r"window\.ct\s*=\s*'?(\d{9,11})", page) or re.search(r"\bct\s*=\s*['\"]?(1[6-9]\d{8})", page)
     date = datetime.datetime.fromtimestamp(int(m.group(1))).strftime("%Y-%m-%d") if m else fallback_date
     paras = [x.strip() for x in body.split("\n") if x.strip()]
@@ -180,9 +186,31 @@ def main():
             failed.append((qdate, section, url)); print(f"[{idx}] FAIL {e}")
     if timeline:
         s = (SITE / "briefings.html").read_text(encoding="utf-8")
-        s = s.replace('<main class="timeline">\n', '<main class="timeline">\n' + "\n".join(timeline) + "\n", 1)
-        (SITE / "briefings.html").write_text(s, encoding="utf-8")
-        print(f"briefings.html: +{len(timeline)} items")
+        m = re.search(r'(<main class="timeline">\n)([\s\S]*?)(\n\s*</main>)', s)
+        if m:
+            # 解析已有条目（date, block），与新条目合并后按日期倒序重排，保证插入位置正确
+            parts = re.split(r'(?=      <div class="tl-item">)', m.group(2))
+            existing = []
+            for part in parts:
+                dm = re.search(r'<div class="date">(\d{4}-\d{2}-\d{2})</div>', part)
+                if dm and part.strip():
+                    existing.append((dm.group(1), part.strip()))
+            new_items = []
+            for it in timeline:
+                dm = re.search(r'<div class="date">(\d{4}-\d{2}-\d{2})</div>', it)
+                if dm:
+                    new_items.append((dm.group(1), it.strip()))
+            merged = new_items + existing
+            seen, dedup = set(), []
+            for d, it in merged:
+                key = re.search(r'href="([^"]+)"', it)
+                k = key.group(1) if key else it[:50]
+                if k in seen: continue
+                seen.add(k); dedup.append((d, it))
+            dedup.sort(key=lambda x: x[0], reverse=True)
+            s = s[:m.start()] + m.group(1) + "\n".join(it for _, it in dedup) + m.group(2) + s[m.end():]
+            (SITE / "briefings.html").write_text(s, encoding="utf-8")
+            print(f"briefings.html: 合并重排后 {len(dedup)} 条")
     # 队列只保留失败项
     failed_set = {u for (_, _, u) in failed}
     remain = "# 待同步队列\n" + "\n".join(f"- {q} [{sec}] {u}" for (q, sec, u) in entries if u in failed_set) + "\n"
