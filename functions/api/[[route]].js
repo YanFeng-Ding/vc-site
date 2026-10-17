@@ -47,7 +47,7 @@ export async function onRequest(context) {
     const links = (body.links || []).map(s => String(s).trim()).filter(s => /^https:\/\/mp\.weixin\.qq\.com\//.test(s));
     const section = body.section === "briefings" ? "前沿风向" : "深度";
     if (!links.length) return new Response(JSON.stringify({ error: "没有有效的微信文章链接" }), { status: 400, headers: JSON_HEADERS });
-    const gh = { "Authorization": "Bearer " + env.GH_TOKEN, "Accept": "application/vnd.github+json", "Content-Type": "application/json" };
+    const gh = { "Authorization": "Bearer " + env.GH_TOKEN, "Accept": "application/vnd.github+json", "Content-Type": "application/json", "User-Agent": "vc-site-admin" };
     const fileApi = "https://api.github.com/repos/YanFeng-Ding/vc-site/contents/_queue.md";
     let existing = "";
     let sha;
@@ -64,7 +64,10 @@ export async function onRequest(context) {
       method: "PUT", headers: gh,
       body: JSON.stringify({ message: "queue: 新增待同步链接 x" + links.length, content: btoa(unescape(encodeURIComponent(content))), sha })
     });
-    if (!pr.ok) return new Response(JSON.stringify({ error: "GitHub 写入失败 " + pr.status }), { status: 500, headers: JSON_HEADERS });
+    if (!pr.ok) {
+      const t = await pr.text().catch(() => "");
+      return new Response(JSON.stringify({ error: "GitHub 写入失败 " + pr.status + (t ? "：" + t.slice(0, 160) : "") }), { status: 500, headers: JSON_HEADERS });
+    }
     return new Response(JSON.stringify({ ok: true, queued: links.length }), { headers: JSON_HEADERS });
   }
 
