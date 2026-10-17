@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>管理后台 · VC投资人</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background: #F5F4F0; }
+  .admin { max-width: 760px; margin: 48px auto; padding: 0 20px; display: grid; gap: 24px; }
+  .panel { background: #fff; border: 1px solid #E3E0D8; border-radius: 14px; padding: 26px; }
+  .panel h2 { font-family: var(--serif); font-size: 19px; margin-bottom: 14px; }
+  input, textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; font-family: var(--sans); box-sizing: border-box; }
+  textarea { min-height: 120px; resize: vertical; }
+  button { background: var(--accent); color: #fff; border: none; padding: 10px 22px; border-radius: 999px; cursor: pointer; font-size: 14px; }
+  button:hover { background: var(--accent-deep); }
+  .row { display: flex; gap: 10px; margin-top: 12px; }
+  .msg { font-size: 13px; margin-top: 10px; min-height: 18px; }
+  .ok { color: #1a7f37; } .err { color: #c0392b; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { border-bottom: 1px solid var(--bg-soft); padding: 8px 6px; text-align: left; }
+  th { color: var(--ink-soft); font-weight: 600; }
+  .hint { font-size: 12.5px; color: #A29D91; margin-top: 10px; line-height: 1.7; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); margin-left: 8px; }
+</style>
+</head>
+<body>
+<div class="admin">
+  <div class="panel">
+    <h2>VC投资人 · 管理后台 <span class="badge" id="st">未登录</span></h2>
+    <input id="key" type="password" placeholder="管理密码（ADMIN_PASSWORD）" oninput="saveKey()">
+    <div class="hint">密码存在你本机浏览器，不会上传到页面外。对应 Cloudflare Pages 环境变量 ADMIN_PASSWORD。</div>
+  </div>
+
+  <div class="panel">
+    <h2>📄 贴入微信文章链接</h2>
+    <p style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">每行一个链接。系统会写入同步队列，每日巡检自动抓取正文并发布到对应栏目。</p>
+    <textarea id="links" placeholder="https://mp.weixin.qq.com/s/xxxx&#10;https://mp.weixin.qq.com/s/yyyy"></textarea>
+    <div class="row">
+      <label style="font-size:13.5px;display:flex;align-items:center;gap:6px">
+        <input type="radio" name="sec" value="deep" checked style="width:auto"> 深度
+      </label>
+      <label style="font-size:13.5px;display:flex;align-items:center;gap:6px">
+        <input type="radio" name="sec" value="briefings" style="width:auto"> 前沿风向
+      </label>
+      <button onclick="submitLinks()">加入同步队列</button>
+    </div>
+    <div class="msg" id="msg1"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📊 文章浏览数 <button style="font-size:12px;padding:4px 14px" onclick="loadViews()">刷新</button></h2>
+    <div id="viewsBox"><p style="font-size:13px;color:var(--ink-soft)">登录后显示各页面浏览量。</p></div>
+    <div class="hint">浏览数据来自 Cloudflare KV 计数器（需绑定 VIEWS_KV）；仅统计上线计数器之后的访问。</div>
+  </div>
+
+  <div class="panel">
+    <h2>💬 评论管理</h2>
+    <p style="font-size:13.5px;color:var(--ink-soft)">评论存储在 GitHub Discussions，管理（删除/锁定/举报）请前往：
+      <a href="https://github.com/YanFeng-Ding/vc-site/discussions" target="_blank" style="color:var(--accent)">github.com/YanFeng-Ding/vc-site/discussions ↗</a></p>
+  </div>
+</div>
+
+<script>
+const KEY = 'vc_admin_key';
+document.getElementById('key').value = localStorage.getItem(KEY) || '';
+function saveKey(){ localStorage.setItem(KEY, document.getElementById('key').value.trim()); auth(); }
+function k(){ return localStorage.getItem(KEY) || ''; }
+function auth(){ document.getElementById('st').textContent = k() ? '已填密码' : '未登录'; }
+auth();
+
+async function submitLinks(){
+  const box = document.getElementById('msg1');
+  const links = document.getElementById('links').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const sec = document.querySelector('input[name=sec]:checked').value;
+  box.className='msg'; box.textContent='提交中…';
+  try {
+    const r = await fetch('/api/links', { method:'POST', headers:{'Content-Type':'application/json','X-Admin-Key':k()},
+      body: JSON.stringify({ links, section: sec }) });
+    const j = await r.json();
+    if (r.ok && j.ok){ box.className='msg ok'; box.textContent='已入队 '+j.queued+' 条，每日巡检将自动抓取发布。'; document.getElementById('links').value=''; }
+    else if (r.status===401){ box.className='msg err'; box.textContent='密码不对。'; }
+    else { box.className='msg err'; box.textContent='失败：'+(j.error||r.status)+(String(j.error||'').includes('未配置')?'（需先在 CF Dashboard 配置环境变量，见部署说明）':''); }
+  } catch(e){ box.className='msg err'; box.textContent='网络异常：'+e; }
+}
+
+async function loadViews(){
+  const box = document.getElementById('viewsBox');
+  try {
+    const r = await fetch('/api/views', { headers:{'X-Admin-Key':k()} });
+    if (r.status===401){ box.innerHTML='<p style="font-size:13px;color:#c0392b">密码为空或不正确。</p>'; return; }
+    if (r.status===500){ box.innerHTML='<p style="font-size:13px;color:#c0392b">VIEWS_KV 未绑定：CF Dashboard → vcinvest → Settings → Bindings 添加 KV 绑定。</p>'; return; }
+    const j = await r.json();
+    const rows = Object.entries(j).sort((a,b)=>b[1]-a[1]).map(([p,v])=>
+      `<tr><td><a href="${p}" style="color:var(--accent)">${p}</a></td><td style="width:90px">${v}</td></tr>`).join('');
+    box.innerHTML = rows ? `<table><tr><th>页面</th><th>浏览量</th></tr>${rows}</table>` : '<p style="font-size:13px;color:var(--ink-soft)">暂无数据（计数器刚上线）。</p>';
+  } catch(e){ box.innerHTML='<p style="font-size:13px;color:#c0392b">加载失败：'+e+'</p>'; }
+}
+if (k()) loadViews();
+</script>
+</body>
+</html>
