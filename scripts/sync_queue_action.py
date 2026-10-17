@@ -143,12 +143,12 @@ def rebuild_posts():
         encoding="utf-8")
     print("posts.json:", len(posts), "posts")
 
-def free_fname(date_compact, idx):
-    """避免同日同名覆盖：NN 递增直到文件名可用。"""
+def free_fname(prefix, date_compact, idx):
+    """避免同日同名覆盖：NN 递增直到文件名可用。prefix 如 article- / brief-。"""
     n = idx
-    while (SITE / f"brief-{date_compact}-{n:02d}.html").exists():
+    while (SITE / f"{prefix}{date_compact}-{n:02d}.html").exists():
         n += 1
-    return f"brief-{date_compact}-{n:02d}.html"
+    return f"{prefix}{date_compact}-{n:02d}.html"
 
 def main():
     entries = re.findall(r"- (\d{4}-\d{2}-\d{2}) \[(深度|前沿风向)\] (https://mp\.weixin\.qq\.com/\S+)",
@@ -171,11 +171,13 @@ def main():
                     failed.append((qdate, section, url)); print(f"[{idx}] FAIL {url}"); continue
                 title, date, clean_html, text = meta
             mins = max(1, round(len(text) / 450))
-            fname = free_fname(date.replace("-", ""), idx)
+            fname = free_fname("article-" if section == "深度" else "brief-",
+                               date.replace("-", ""), idx)
             page_html = render(title, date, mins, url, text[:80], clean_html, section)
             (SITE / fname).write_text(page_html, encoding="utf-8")
             desc = text[:90]
-            timeline.append(f'''      <div class="tl-item">
+            if section != "深度":  # 深度栏目只上 deep-dives（经 posts.json），不进 briefings 时间线
+                timeline.append(f'''      <div class="tl-item">
         <div class="date">{date}</div>
         <h3><a href="{fname}" style="color:inherit">{html.escape(title)}</a></h3>
         <p>{html.escape(desc)}… <a href="{fname}" style="color:var(--accent)">→ 全文</a></p>
@@ -208,7 +210,7 @@ def main():
                 if k in seen: continue
                 seen.add(k); dedup.append((d, it))
             dedup.sort(key=lambda x: x[0], reverse=True)
-            s = s[:m.start()] + m.group(1) + "\n".join(it for _, it in dedup) + m.group(2) + s[m.end():]
+            s = s[:m.start()] + m.group(1) + "\n".join(it for _, it in dedup) + m.group(3) + s[m.end():]
             (SITE / "briefings.html").write_text(s, encoding="utf-8")
             print(f"briefings.html: 合并重排后 {len(dedup)} 条")
     # 队列只保留失败项
