@@ -96,6 +96,47 @@ def render(title, date, mins, url, desc, content_html, section):
              .replace("__DESC__", html.escape(desc))
              .replace("__CONTENT__", content_html))
 
+SKIP_PAGES = {"index.html","briefings.html","themes.html","deep-dives.html","books.html","contact.html","admin.html","article.html"}
+
+def first_text(h, limit=110):
+    m = re.search(r'<div class="article-body">([\s\S]*?)</div>', h)
+    if m:
+        seg = re.sub(r'style="[^"]*"\s*>', "", m.group(1))
+        txt = re.sub(r"<[^>]+>", "", seg)
+        txt = re.sub(r"[\"'>]", "", txt)
+        txt = re.sub(r"\s+", " ", txt).strip()
+        if len(txt) >= 30:
+            return txt[:limit]
+    md = re.search(r'<meta name="description" content="([^"]*)"', h)
+    return html.unescape(md.group(1))[:limit] if md else ""
+
+def rebuild_posts():
+    """扫描全站文章页 → 重建 posts.json（首页「本周精选」数据源）。"""
+    posts = []
+    for f in sorted(SITE.glob("*.html")):
+        n = f.name
+        if n in SKIP_PAGES or not (n.startswith("article-") or n.startswith("brief-")):
+            continue
+        h = f.read_text(encoding="utf-8")
+        t = re.search(r"<title>(.*?) · VC投资人</title>", h, re.S)
+        title = html.unescape(t.group(1)).strip() if t else n
+        m = re.search(r'<div class="article-meta">([\s\S]*?)</div>', h)
+        date, mins = "", ""
+        if m:
+            d = re.search(r"<span>(\d{4}-\d{2}-\d{2})</span>", m.group(1))
+            date = d.group(1) if d else ""
+            mm = re.search(r"约 (\d+) 分钟", m.group(1))
+            mins = mm.group(1) if mm else ""
+        if not date:
+            continue
+        posts.append({"file": n, "section": "深度" if n.startswith("article-") else "前沿风向",
+                      "title": title, "date": date, "mins": mins, "desc": first_text(h)})
+    posts.sort(key=lambda x: x["date"], reverse=True)
+    (SITE / "posts.json").write_text(
+        json.dumps({"updated": datetime.date.today().isoformat(), "posts": posts}, ensure_ascii=False, indent=0),
+        encoding="utf-8")
+    print("posts.json:", len(posts), "posts")
+
 def free_fname(date_compact, idx):
     """避免同日同名覆盖：NN 递增直到文件名可用。"""
     n = idx
@@ -146,6 +187,7 @@ def main():
     failed_set = {u for (_, _, u) in failed}
     remain = "# 待同步队列\n" + "\n".join(f"- {q} [{sec}] {u}" for (q, sec, u) in entries if u in failed_set) + "\n"
     QUEUE.write_text(remain, encoding="utf-8")
+    rebuild_posts()
     print(f"done: ok={len(ok_files)} failed={len(failed)}")
 
 if __name__ == "__main__":
