@@ -1,0 +1,39 @@
+name: sync-queue
+# 贴链接后即时同步：_queue.md 一变就跑（CF 后台写入队列即触发），也可手动 dispatch
+on:
+  push:
+    paths: ["_queue.md"]
+  workflow_dispatch:
+
+concurrency:
+  group: sync-queue
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Configure git
+        run: |
+          git config user.name "vc-sync-bot"
+          git config user.email "vc-sync-bot@users.noreply.github.com"
+      - name: Consume queue and generate pages
+        run: python scripts/sync_queue_action.py
+      - name: Commit and push
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "sync: 队列自动同步 $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push origin main
+          fi
