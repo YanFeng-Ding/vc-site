@@ -75,7 +75,7 @@
 <script>
 const KEY = 'vc_admin_key';
 document.getElementById('key').value = localStorage.getItem(KEY) || '';
-function saveKey(){ localStorage.setItem(KEY, document.getElementById('key').value.trim()); auth(); }
+function saveKey(){ localStorage.setItem(KEY, document.getElementById('key').value.trim()); auth(); if(k()){ loadViews(); loadSubs(); } }
 function k(){ return localStorage.getItem(KEY) || ''; }
 function auth(){ document.getElementById('st').textContent = k() ? '已填密码' : '未登录'; }
 auth();
@@ -111,7 +111,7 @@ async function loadSubs(){
   const box = document.getElementById('subsBox');
   try {
     const r = await fetch('/api/subscribers', { headers:{'X-Admin-Key':k()} });
-    if (r.status===401){ box.innerHTML='<p style="font-size:13px;color:#c0392b">密码为空或不正确。</p>'; return; }
+    if (r.status===401){ box.innerHTML='<p style="font-size:13px;color:#c0392b">密码为空或不正确：请先在顶部输入管理密码（ADMIN_PASSWORD）。</p>'; return; }
     const j = await r.json();
     if (!r.ok){ box.innerHTML='<p style="font-size:13px;color:#c0392b">'+(j.error||r.status)+'</p>'; return; }
     if (!j.count){ box.innerHTML='<p style="font-size:13px;color:var(--ink-soft)">暂无订阅者。</p>'; return; }
