@@ -59,6 +59,13 @@
   </div>
 
   <div class="panel">
+    <h2>📮 订阅者列表 <button style="font-size:12px;padding:4px 14px" onclick="loadSubs()">刷新</button></h2>
+    <div id="subsBox"><p style="font-size:13px;color:var(--ink-soft)">登录后显示邮箱订阅名单。</p></div>
+    <div class="hint">数据存于仓库 _subscribers.md，也可在
+      <a href="https://github.com/YanFeng-Ding/vc-site/blob/main/_subscribers.md" target="_blank" style="color:var(--accent)">GitHub 直接查看 ↗</a>。</div>
+  </div>
+
+  <div class="panel">
     <h2>💬 评论管理</h2>
     <p style="font-size:13.5px;color:var(--ink-soft)">评论存储在 GitHub Discussions，管理（删除/锁定/举报）请前往：
       <a href="https://github.com/YanFeng-Ding/vc-site/discussions" target="_blank" style="color:var(--accent)">github.com/YanFeng-Ding/vc-site/discussions ↗</a></p>
@@ -100,6 +107,23 @@ async function runSync(){
   } catch(e){ box.className='msg err'; box.textContent='网络异常：'+e; }
 }
 
+async function loadSubs(){
+  const box = document.getElementById('subsBox');
+  try {
+    const r = await fetch('/api/subscribers', { headers:{'X-Admin-Key':k()} });
+    if (r.status===401){ box.innerHTML='<p style="font-size:13px;color:#c0392b">密码为空或不正确。</p>'; return; }
+    const j = await r.json();
+    if (!r.ok){ box.innerHTML='<p style="font-size:13px;color:#c0392b">'+(j.error||r.status)+'</p>'; return; }
+    if (!j.count){ box.innerHTML='<p style="font-size:13px;color:var(--ink-soft)">暂无订阅者。</p>'; return; }
+    const rows = j.list.split('\n').filter(l=>/^ -?/.test(l.trim()) && l.trim().startsWith('- ')).map(l=>{
+      const m = l.trim().replace(/^- /,'').split(' ');
+      const date = m[0]||'', email = m.slice(1).join(' ');
+      return `<tr><td style="width:110px">${date}</td><td>${email}</td></tr>`;
+    }).join('');
+    box.innerHTML = `<p style="font-size:13px;color:var(--ink-soft);margin-bottom:6px">共 ${j.count} 位订阅者</p><table><tr><th>日期</th><th>邮箱</th></tr>${rows}</table>`;
+  } catch(e){ box.innerHTML='<p style="font-size:13px;color:#c0392b">加载失败：'+e+'</p>'; }
+}
+
 async function loadViews(){
   const box = document.getElementById('viewsBox');
   try {
@@ -112,7 +136,7 @@ async function loadViews(){
     box.innerHTML = rows ? `<table><tr><th>页面</th><th>浏览量</th></tr>${rows}</table>` : '<p style="font-size:13px;color:var(--ink-soft)">暂无数据（计数器刚上线）。</p>';
   } catch(e){ box.innerHTML='<p style="font-size:13px;color:#c0392b">加载失败：'+e+'</p>'; }
 }
-if (k()) loadViews();
+if (k()) { loadViews(); loadSubs(); }
 </script>
 </body>
 </html>
