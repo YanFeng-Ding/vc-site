@@ -35,7 +35,7 @@
 
   <div class="panel">
     <h2>📄 贴入微信文章链接</h2>
-    <p style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">每行一个链接。系统会写入同步队列，每日巡检自动抓取正文并发布到对应栏目。</p>
+    <p style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">每行一个链接。提交后自动触发即时同步（约 1-3 分钟发布上线），无需等每日巡检。</p>
     <textarea id="links" placeholder="https://mp.weixin.qq.com/s/xxxx&#10;https://mp.weixin.qq.com/s/yyyy"></textarea>
     <div class="row">
       <label style="font-size:13.5px;display:flex;align-items:center;gap:6px">
@@ -44,9 +44,12 @@
       <label style="font-size:13.5px;display:flex;align-items:center;gap:6px">
         <input type="radio" name="sec" value="briefings" style="width:auto"> 前沿风向
       </label>
-      <button onclick="submitLinks()">加入同步队列</button>
+      <button onclick="submitLinks()">提交并立即同步</button>
+      <button style="background:#6B7280" onclick="runSync()">仅重跑队列</button>
     </div>
     <div class="msg" id="msg1"></div>
+    <div class="hint">「提交并立即同步」= 入队 + 触发同步；「仅重跑队列」= 队列里有失败条目时手动重试。同步进度可在
+      <a href="https://github.com/YanFeng-Ding/vc-site/actions" target="_blank" style="color:var(--accent)">GitHub Actions ↗</a> 查看。</div>
   </div>
 
   <div class="panel">
@@ -79,9 +82,21 @@ async function submitLinks(){
     const r = await fetch('/api/links', { method:'POST', headers:{'Content-Type':'application/json','X-Admin-Key':k()},
       body: JSON.stringify({ links, section: sec }) });
     const j = await r.json();
-    if (r.ok && j.ok){ box.className='msg ok'; box.textContent='已入队 '+j.queued+' 条，每日巡检将自动抓取发布。'; document.getElementById('links').value=''; }
+    if (r.ok && j.ok){ box.className='msg ok'; box.textContent='已入队 '+j.queued+' 条，即时同步已自动触发，约 1-3 分钟后上线（进度见 GitHub Actions）。'; document.getElementById('links').value=''; }
     else if (r.status===401){ box.className='msg err'; box.textContent='密码不对。'; }
     else { box.className='msg err'; box.textContent='失败：'+(j.error||r.status)+(String(j.error||'').includes('未配置')?'（需先在 CF Dashboard 配置环境变量，见部署说明）':''); }
+  } catch(e){ box.className='msg err'; box.textContent='网络异常：'+e; }
+}
+
+async function runSync(){
+  const box = document.getElementById('msg1');
+  box.className='msg'; box.textContent='触发同步中…';
+  try {
+    const r = await fetch('/api/sync', { method:'POST', headers:{'X-Admin-Key':k()} });
+    const j = await r.json();
+    if (r.ok && j.ok){ box.className='msg ok'; box.textContent='同步已触发，约 1-3 分钟完成（进度见 GitHub Actions）。'; }
+    else if (r.status===401){ box.className='msg err'; box.textContent='密码不对。'; }
+    else { box.className='msg err'; box.textContent='失败：'+(j.error||r.status); }
   } catch(e){ box.className='msg err'; box.textContent='网络异常：'+e; }
 }
 
