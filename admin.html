@@ -115,9 +115,9 @@ async function loadSubs(){
     const j = await r.json();
     if (!r.ok){ box.innerHTML='<p style="font-size:13px;color:#c0392b">'+(j.error||r.status)+'</p>'; return; }
     if (!j.count){ box.innerHTML='<p style="font-size:13px;color:var(--ink-soft)">暂无订阅者。</p>'; return; }
-    const rows = j.list.split('\n').filter(l=>/^ -?/.test(l.trim()) && l.trim().startsWith('- ')).map(l=>{
-      const m = l.trim().replace(/^- /,'').split(' ');
-      const date = m[0]||'', email = m.slice(1).join(' ');
+    const rows = j.list.split('\n').filter(l=>l.trim().startsWith('- ')).map(l=>{
+      const parts = l.trim().slice(2).trim().split(/\s+/);
+      const date = parts[0]||'', email = parts.slice(1).join(' ');
       return `<tr><td style="width:110px">${date}</td><td>${email}</td></tr>`;
     }).join('');
     box.innerHTML = `<p style="font-size:13px;color:var(--ink-soft);margin-bottom:6px">共 ${j.count} 位订阅者</p><table><tr><th>日期</th><th>邮箱</th></tr>${rows}</table>`;
