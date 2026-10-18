@@ -50,7 +50,7 @@
   function esc(s) {
     return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
-  fetch("posts.json").then(function (r) { return r.json(); }).then(function (d) {
+  fetch("posts.json?v=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) {
     var deep = (d.posts || []).filter(function (p) { return p.section === "深度"; });
     if (!deep.length) return;
     document.getElementById("dive-list").innerHTML = deep.map(function (p, i) {
