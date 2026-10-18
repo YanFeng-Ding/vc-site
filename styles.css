@@ -164,6 +164,7 @@ footer { border-top: 1px solid var(--line); margin-top: 56px; padding: 32px 0 48
 .foot { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--ink-soft); flex-wrap: wrap; gap: 12px; }
 .foot a { color: var(--ink-soft); margin-left: 18px; }
 .foot a:hover { color: var(--accent); }
+.motto { text-align: center; margin-top: 30px; font-size: 13.5px; letter-spacing: 0.45em; text-indent: 0.45em; color: var(--ink-soft); }
 
 .menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; font-size: 17px; line-height: 1; padding: 6px 11px; cursor: pointer; color: var(--ink); flex-shrink: 0; }
 .menu-btn:hover { border-color: var(--accent); }
