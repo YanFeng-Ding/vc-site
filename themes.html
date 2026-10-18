@@ -19,7 +19,7 @@
       <a href="books.html">书单</a>
       <a href="contact.html">联系</a>
     </nav>
-    <a class="sub-link" href="index.html#subscribe"><button class="sub-btn">订阅</button></a>
+    <a href="index.html#subscribe"><button class="sub-btn">订阅</button></a>
     <button class="menu-btn" aria-label="菜单" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
   </div>
 </header>
@@ -65,9 +65,9 @@
       <div class="count">加载中…</div>
     </a>
     <a class="theme-card" href="briefings.html">
-      <div class="icon">💰</div>
-      <h3>金融科技</h3>
-      <p>支付、跨境结算与一级市场基础设施的演变</p>
+      <div class="icon">⚛️</div>
+      <h3>量子科技</h3>
+      <p>量子计算、QPU 芯片、离子阱与超导路线的资本布局</p>
       <div class="count">加载中…</div>
     </a>
   </div>
@@ -82,7 +82,7 @@
     { key: "航天", kws: ["航天", "卫星", "太空", "火箭", "轨道", "SpaceX", "星链", "GEO", "LEO"] },
     { key: "生物科技", kws: ["生物", "医药", "医疗", "基因", "制药", "脑机", "临床"] },
     { key: "新能源", kws: ["能源", "电池", "储能", "核电", "核聚变", "电力", "光伏", "电网", "氢"] },
-    { key: "金融科技", kws: ["支付", "金融", "结算", "稳定币", "加密", "银行", "Fintech", "保险", "跨境"] }
+    { key: "量子科技", kws: ["量子", "QPU", "离子阱", "qubit", "Quantum", "超导", "量子计算", "量子芯片", "量子通信"] }
   ];
   var esc = function (s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
   fetch("posts.json?v=" + Date.now()).then(function (r) { return r.json(); }).then(function (j) {
