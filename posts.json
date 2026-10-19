@@ -1,6 +1,14 @@
 {
-"updated": "2026-10-18",
+"updated": "2026-10-19",
 "posts": [
+{
+"file": "brief-20261019-01.html",
+"section": "前沿风向",
+"title": "三星美光海力士都在转的方向，这家小公司先拿了6500万美元",
+"date": "2026-10-19",
+"mins": "2",
+"desc": "三星美光海力士都在转的方向，这家小公司先拿了6500万美元10月16日，波特兰芯片创业公司Mueon宣布完成6500万美元A轮融资，由半导体专业投资机构Maverick Silicon领投，巨头Intel Capital"
+},
 {
 "file": "article-20261018-01.html",
 "section": "深度",
@@ -16,6 +24,22 @@
 "date": "2026-10-18",
 "mins": "2",
 "desc": "a16z创始人马克·安德森：乔布斯式创业已死，年轻马斯克们正在接管Marc Andreessen最近发了一条推文，在硅谷风投圈火了一周还没停。原话很短：“创始人正从‘艺术型UI嬉皮士’变成‘硬核举铁的执行者’。”过去十年"
+},
+{
+"file": "brief-20261018-02.html",
+"section": "前沿风向",
+"title": "Ben Horowitz：AI“突然失控”的四个条件",
+"date": "2026-10-18",
+"mins": "1",
+"desc": "Ben Horowitz：AI“突然失控”的四个条件a16z联合创始人Ben Horowitz最近在一档播客里被问到AI“突然失控”的可能性。他给了一个记分牌：四个条件，零个满足。Databricks的CEO Ali G"
+},
+{
+"file": "brief-20261018-03.html",
+"section": "前沿风向",
+"title": "女版乔布斯又上热搜，这次不是因为骗局",
+"date": "2026-10-18",
+"mins": "2",
+"desc": "女版乔布斯又上热搜，这次不是因为骗局X前产品负责人Nikita Bier最近对女版乔布斯的一条点评，把这位前Theranos女创始人Elizabeth Holmes重新推上了热搜。他在推文里并没有把她叫作骗子，而说她是“"
 },
 {
 "file": "article-20261017-08.html",
