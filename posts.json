@@ -1,6 +1,14 @@
 {
-"updated": "2026-10-21",
+"updated": "2026-10-22",
 "posts": [
+{
+"file": "brief-20261021-01.html",
+"section": "前沿风向",
+"title": "“Meta Muse很可能造出1000个百万富翁”",
+"date": "2026-10-21",
+"mins": "1",
+"desc": "“Meta Muse很可能造出1000个百万富翁”本条为公众号音频/短讯节目，完整内容请点击上方「阅读公众号原文」收听或查看。"
+},
 {
 "file": "brief-20261021-02.html",
 "section": "前沿风向",
@@ -8,6 +16,14 @@
 "date": "2026-10-21",
 "mins": "2",
 "desc": "Mobileye创始人新公司：2亿美元到账，先花一半买1000块B30010月19日，以色列AI模型公司doubleAI官宣2亿美元A轮，Lightspeed和Bessemer联合领投，英伟达、戴尔跟投，估值10亿美元。"
+},
+{
+"file": "brief-20261021-03.html",
+"section": "前沿风向",
+"title": "前OpenAI研究主管不写模型了，2.3亿美元押注工厂Agent",
+"date": "2026-10-21",
+"mins": "2",
+"desc": "前OpenAI研究主管不写模型了，2.3亿美元押注工厂AgentOpenAI前研究主管Bob McGrew创立的AI Agent公司Arda，近日完成由Altimeter、Accel、Khosla联合领投的1.6亿美元A"
 },
 {
 "file": "brief-20261020-01.html",
