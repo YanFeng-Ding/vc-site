@@ -59,7 +59,18 @@
       <button style="background:#6B7280" onclick="runSync()">仅重跑队列</button>
     </div>
     <div class="msg" id="msg1"></div>
-    <div class="hint">「提交并立即同步」= 入队 + 触发同步；「仅重跑队列」= 队列里有失败条目时手动重试。同步进度可在
+    <div id="fb" style="display:none;margin-top:12px;padding:12px 14px;border:1px dashed var(--accent);border-radius:10px;background:var(--accent-soft)">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px">提交没成功？改用 GitHub 直接入队（境内网络推荐，10 秒搞定）</div>
+      <div id="fbwhy" style="font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;line-height:1.6"></div>
+      <textarea id="fblines" readonly style="min-height:64px;font-size:12.5px;background:#fff"></textarea>
+      <div class="row">
+        <button type="button" style="font-size:12.5px;padding:8px 16px;background:#6B7280" onclick="copyLines(this)">复制队列行</button>
+        <a id="fblink" href="https://github.com/YanFeng-Ding/vc-site/edit/main/_queue.md" target="_blank" rel="noopener"
+           style="font-size:12.5px;padding:8px 16px;border-radius:999px;background:var(--accent);color:#fff;text-decoration:none">打开 GitHub 队列文件 ↗</a>
+      </div>
+      <div class="hint">把复制的行粘贴到 _queue.md 末尾 → 页面右下角 Commit changes。提交后约 1-3 分钟自动同步上线。</div>
+    </div>
+    <div class="hint">当前访问域名：<b id="originInfo"></b>　「提交并立即同步」= 入队 + 触发同步；「仅重跑队列」= 队列里有失败条目时手动重试。同步进度可在
       <a href="https://github.com/YanFeng-Ding/vc-site/actions" target="_blank" style="color:var(--accent)">GitHub Actions ↗</a> 查看。</div>
   </div>
 
@@ -91,19 +102,58 @@ function k(){ return localStorage.getItem(KEY) || ''; }
 function auth(){ document.getElementById('st').textContent = k() ? '已填密码' : '未登录'; }
 auth();
 
+function queueLine(u, sec){
+  const t = new Date().toISOString().slice(0,10);
+  return `- ${t} [${sec === 'briefings' ? '前沿风向' : '深度'}] ${u}`;
+}
+function hideFallback(){ document.getElementById('fb').style.display = 'none'; }
+function showFallback(links, sec, why){
+  const onGH = location.hostname.endsWith('github.io');
+  document.getElementById('fbwhy').textContent = onGH
+    ? '当前域名 ' + location.hostname + ' 是 GitHub Pages，不运行提交接口，请直接用下面的 GitHub 方式入队。'
+    : '当前域名：' + location.hostname + '　失败原因：' + why + '（多为网络被拦截/超时，可切换网络后重试，或直接用下面的 GitHub 方式）。';
+  document.getElementById('fblines').value = links.map(u => queueLine(u, sec)).join('\n');
+  document.getElementById('fb').style.display = 'block';
+}
+async function copyLines(btn){
+  const ta = document.getElementById('fblines');
+  try { await navigator.clipboard.writeText(ta.value); }
+  catch { ta.select(); document.execCommand('copy'); }
+  btn.textContent = '已复制 ✓';
+  setTimeout(() => { btn.textContent = '复制队列行'; }, 2000);
+}
+document.getElementById('originInfo').textContent = location.origin;
+
 async function submitLinks(){
   const box = document.getElementById('msg1');
   const links = document.getElementById('links').value.split('\n').map(s=>s.trim()).filter(Boolean);
   const sec = document.querySelector('input[name=sec]:checked').value;
+  if (!links.length){ box.className='msg err'; box.textContent='请先粘贴至少一个链接。'; return; }
   box.className='msg'; box.textContent='提交中…';
-  try {
-    const r = await fetch('/api/links', { method:'POST', headers:{'Content-Type':'application/json','X-Admin-Key':k()},
-      body: JSON.stringify({ links, section: sec }) });
-    const j = await r.json();
-    if (r.ok && j.ok){ box.className='msg ok'; box.textContent='已入队 '+j.queued+' 条，即时同步已自动触发，约 1-3 分钟后上线（进度见 GitHub Actions）。'; document.getElementById('links').value=''; }
-    else if (r.status===401){ box.className='msg err'; box.textContent='密码不对。'; }
-    else { box.className='msg err'; box.textContent='失败：'+(j.error||r.status)+(String(j.error||'').includes('未配置')?'（需先在 CF Dashboard 配置环境变量，见部署说明）':''); }
-  } catch(e){ box.className='msg err'; box.textContent='网络异常：'+e; }
+  let lastErr = '';
+  for (let attempt = 1; attempt <= 3; attempt++){
+    try {
+      const r = await fetch('/api/links', { method:'POST', headers:{'Content-Type':'application/json','X-Admin-Key':k()},
+        body: JSON.stringify({ links, section: sec }) });
+      const j = await r.json().catch(()=>({}));
+      if (r.ok && j.ok){
+        box.className='msg ok'; hideFallback();
+        if (j.dup){ box.textContent='这些链接已在队列中，无需重复提交。'; return; }
+        box.textContent='已入队 '+j.queued+' 条，即时同步已触发，约 1-3 分钟后上线（进度见 GitHub Actions）。';
+        document.getElementById('links').value='';
+        return;
+      }
+      if (r.status===401){ box.className='msg err'; hideFallback(); box.textContent='密码不对：请检查顶部管理密码（对应 Cloudflare 环境变量 ADMIN_PASSWORD）。'; return; }
+      lastErr = (j.error || ('HTTP '+r.status)) + (String(j.error||'').includes('未配置') ? '（需先在 Cloudflare Dashboard 配置环境变量）' : '');
+      break; // HTTP 层错误重试无意义
+    } catch(e){
+      lastErr = String(e);
+      if (attempt < 3){ box.textContent='网络波动，正在第 '+attempt+' 次重试…'; await new Promise(s=>setTimeout(s, 1500*attempt)); }
+    }
+  }
+  box.className='msg err';
+  box.textContent='提交失败：'+lastErr;
+  showFallback(links, sec, lastErr);
 }
 
 async function runSync(){

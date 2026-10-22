@@ -84,7 +84,7 @@ def meta_extract(page, fallback_date):
         paras = [body.strip(), "本条为公众号音频/短讯节目，完整内容请点击上方「阅读公众号原文」收听或查看。"]
         clean_html = "".join(f"<p>{html.escape(x)}</p>" for x in paras)
         title = paras[0][:60]
-        return title, date, clean_html, body
+        return title, fallback_date, clean_html, body
     m = re.search(r"window\.ct\s*=\s*'?(\d{9,11})", page) or re.search(r"\bct\s*=\s*['\"]?(1[6-9]\d{8})", page)
     date = datetime.datetime.fromtimestamp(int(m.group(1))).strftime("%Y-%m-%d") if m else fallback_date
     paras = [x.strip() for x in body.split("\n") if x.strip()]

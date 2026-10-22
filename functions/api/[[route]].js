@@ -7,6 +7,16 @@
 const JSON_HEADERS = { "Content-Type": "application/json; charset=utf-8" };
 
 export async function onRequest(context) {
+  try {
+    return await handle(context);
+  } catch (e) {
+    // 兜底：任何未捕获异常都以 JSON 500 返回，避免前端只看到 "TypeError: Load failed"
+    return new Response(JSON.stringify({ error: "服务端异常：" + String((e && e.message) || e).slice(0, 160) }),
+      { status: 500, headers: JSON_HEADERS });
+  }
+}
+
+async function handle(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
@@ -71,19 +81,33 @@ export async function onRequest(context) {
       const j = await r.json();
       sha = j.sha;
       existing = atob(j.content.replace(/\n/g, ""));
+    } else if (r.status !== 404) {
+      return new Response(JSON.stringify({ error: "读取队列失败 " + r.status }), { status: 500, headers: JSON_HEADERS });
+    }
+    // 去重：队列里已有的链接直接跳过，避免重复入队
+    const uniq = links.filter(u => !existing.includes(u));
+    if (!uniq.length) {
+      return new Response(JSON.stringify({ ok: true, queued: 0, dup: true }), { headers: JSON_HEADERS });
     }
     const today = new Date().toISOString().slice(0, 10);
-    const added = links.map(u => `- ${today} [${section}] ${u}`).join("\n");
+    const added = uniq.map(u => `- ${today} [${section}] ${u}`).join("\n");
     const content = (existing ? existing.trimEnd() + "\n" : "# 待同步队列\n") + added + "\n";
     const pr = await fetch(fileApi, {
       method: "PUT", headers: gh,
-      body: JSON.stringify({ message: "queue: 新增待同步链接 x" + links.length, content: btoa(unescape(encodeURIComponent(content))), sha })
+      body: JSON.stringify({ message: "queue: 新增待同步链接 x" + uniq.length, content: btoa(unescape(encodeURIComponent(content))), sha })
     });
     if (!pr.ok) {
       const t = await pr.text().catch(() => "");
       return new Response(JSON.stringify({ error: "GitHub 写入失败 " + pr.status + (t ? "：" + t.slice(0, 160) : "") }), { status: 500, headers: JSON_HEADERS });
     }
-    return new Response(JSON.stringify({ ok: true, queued: links.length }), { headers: JSON_HEADERS });
+    // 入队成功后主动触发即时同步：不依赖 push 事件（PAT 写入同样能跑），确保 1-3 分钟内上线
+    let syncStatus = 0;
+    try {
+      const dr = await fetch("https://api.github.com/repos/YanFeng-Ding/vc-site/actions/workflows/sync-queue.yml/dispatches",
+        { method: "POST", headers: gh, body: JSON.stringify({ ref: "main" }) });
+      syncStatus = dr.status;
+    } catch (_) { /* 触发失败不影响入队结果，巡检也会补跑 */ }
+    return new Response(JSON.stringify({ ok: true, queued: uniq.length, sync: syncStatus }), { headers: JSON_HEADERS });
   }
 
   // 订阅收集（公开）：邮箱追加写入仓库 _subscribers.md，无第三方依赖，国内外可达
