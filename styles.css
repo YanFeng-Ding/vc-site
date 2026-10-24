@@ -65,7 +65,7 @@ header { border-bottom: 1px solid var(--line); background: var(--bg); position: 
 .card:hover h3 { color: var(--accent); }
 .card p { font-size: 14.5px; color: var(--ink-soft); margin-top: 6px; }
 .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.feature .art { height: 200px; background: #060606; position: relative; overflow: hidden; }
+.feature .art { height: 200px; background: linear-gradient(135deg, #F5F0FC 0%, #FBF7F2 52%, #FFF3E8 100%); position: relative; overflow: hidden; }
 .feature .art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .feature .body { padding: 24px; }
 .feature h3 { font-family: var(--serif); font-size: 26px; line-height: 1.35; margin-top: 8px; }

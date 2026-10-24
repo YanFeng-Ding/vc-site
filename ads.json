@@ -12,7 +12,7 @@
   },
   "slots": {
     "index-sidebar": { "enabled": true, "book": "power-law", "note": "首页侧栏 300×250" },
-    "briefings-sidebar": { "enabled": false, "book": "zero-to-one", "note": "前沿风向页侧栏 300×250" },
+    "briefings-sidebar": { "enabled": true, "book": "venture-deals", "note": "前沿风向页侧栏 300×250" },
     "article-bottom": { "enabled": true, "book": "zero-to-one", "note": "文章页底部通栏" }
   }
 }
