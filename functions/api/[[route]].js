@@ -41,8 +41,8 @@ async function handle(context) {
     const out = {};
     let cursor;
     do {
-      const list = await env.VIEWS_KV.list({ prefix: "v:", cursor });
-      for (const k of list.keys) out[k.name.slice(2)] = parseInt((await env.VIEWS_KV.get(k.name)) || "0", 10);
+      const list = await env.VIEWS_KV.list({ cursor });
+      for (const k of list.keys) out[k.name.indexOf("v:") === 0 ? k.name.slice(2) : k.name] = parseInt((await env.VIEWS_KV.get(k.name)) || "0", 10);
       cursor = list.list_complete ? undefined : list.cursor;
     } while (cursor);
     return new Response(JSON.stringify(out), { headers: JSON_HEADERS });
@@ -155,6 +155,60 @@ async function handle(context) {
     if (r.status === 204) return new Response(JSON.stringify({ ok: true }), { headers: JSON_HEADERS });
     const t = await r.text().catch(() => "");
     return new Response(JSON.stringify({ error: "触发失败 " + r.status + (t ? "：" + t.slice(0, 200) : "") }), { status: 500, headers: JSON_HEADERS });
+  }
+
+  // 广告配置（京东图书）：GET 读本站静态文件；POST（后台）写仓库 ads.json
+  if (path === "/api/ads") {
+    if (request.method === "GET") {
+      const r = await fetch(new URL("/ads.json", request.url).toString(), { headers: { "Accept": "application/json" } }).catch(() => null);
+      if (r && r.ok) return new Response(await r.text(), { headers: { ...JSON_HEADERS, "Cache-Control": "no-store" } });
+      return new Response(JSON.stringify({ books: {}, slots: {} }), { headers: JSON_HEADERS });
+    }
+    if (request.method === "POST") {
+      if (!authed) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: JSON_HEADERS });
+      if (!env.GH_TOKEN) return new Response(JSON.stringify({ error: "GH_TOKEN 未配置" }), { status: 500, headers: JSON_HEADERS });
+      let body;
+      try { body = await request.json(); } catch { body = {}; }
+      const books = body.books, slots = body.slots;
+      if (!books || typeof books !== "object" || Array.isArray(books) || !slots || typeof slots !== "object" || Array.isArray(slots))
+        return new Response(JSON.stringify({ error: "配置格式不正确" }), { status: 400, headers: JSON_HEADERS });
+      for (const key of Object.keys(books)) {
+        const b = books[key] || {};
+        if (b.link && !/^https?:\/\//i.test(String(b.link)))
+          return new Response(JSON.stringify({ error: "图书链接必须是 http(s) 地址：" + key }), { status: 400, headers: JSON_HEADERS });
+        if (b.model && ["CPM", "CPC", "CPS"].indexOf(b.model) < 0)
+          return new Response(JSON.stringify({ error: "计费方式只能是 CPM / CPC / CPS" }), { status: 400, headers: JSON_HEADERS });
+        if (b.cover && !/^(https?:\/\/|\/|assets\/)/i.test(String(b.cover)))
+          return new Response(JSON.stringify({ error: "封面地址不合法：" + key }), { status: 400, headers: JSON_HEADERS });
+      }
+      const content = JSON.stringify({ updated: new Date().toISOString().slice(0, 10), books, slots }, null, 2) + "\n";
+      const gh = { "Authorization": "Bearer " + env.GH_TOKEN, "Accept": "application/vnd.github+json", "Content-Type": "application/json", "User-Agent": "vc-site-admin" };
+      const fileApi = "https://api.github.com/repos/YanFeng-Ding/vc-site/contents/ads.json";
+      let sha;
+      const r = await fetch(fileApi, { headers: gh });
+      if (r.status === 200) sha = (await r.json()).sha;
+      else if (r.status !== 404) return new Response(JSON.stringify({ error: "读取失败 " + r.status }), { status: 500, headers: JSON_HEADERS });
+      const pr = await fetch(fileApi, { method: "PUT", headers: gh,
+        body: JSON.stringify({ message: "ads: 更新广告配置", content: btoa(unescape(encodeURIComponent(content))), sha }) });
+      if (!pr.ok) return new Response(JSON.stringify({ error: "GitHub 写入失败 " + pr.status }), { status: 500, headers: JSON_HEADERS });
+      return new Response(JSON.stringify({ ok: true }), { headers: JSON_HEADERS });
+    }
+  }
+
+  // 广告点击：计数（KV，静默失败）后 302 跳转京东
+  if (path === "/api/adclick") {
+    const to = url.searchParams.get("to") || "";
+    const slot = (url.searchParams.get("slot") || "unknown").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40);
+    if (!/^https?:\/\//i.test(to))
+      return new Response(JSON.stringify({ error: "链接不合法" }), { status: 400, headers: JSON_HEADERS });
+    if (env.VIEWS_KV) {
+      try {
+        const key = "ad:" + slot;
+        const n = parseInt((await env.VIEWS_KV.get(key)) || "0", 10) + 1;
+        await env.VIEWS_KV.put(key, String(n));
+      } catch (_) { /* 计数失败不阻塞跳转 */ }
+    }
+    return new Response(null, { status: 302, headers: { "Location": to, "Cache-Control": "no-store" } });
   }
 
   return new Response(JSON.stringify({ error: "not found" }), { status: 404, headers: JSON_HEADERS });

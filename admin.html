@@ -88,6 +88,45 @@
   </div>
 
   <div class="panel">
+    <h2>🛒 广告位 · 京东图书</h2>
+    <p style="font-size:13px;color:var(--ink-soft);margin-bottom:12px">选广告位 → 选书 → 贴京东链接 → 选计费方式。图书的链接与计费方式全站共用（改一次，所有用到这本书的位置同时生效）。</p>
+    <div style="display:grid;gap:14px">
+      <div>
+        <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:6px">① 广告位</div>
+        <div id="ad-slots" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <div>
+        <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:6px">② 图书（书单页 8 本）</div>
+        <div id="ad-books" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <label style="font-size:13px">③ 京东链接（推荐京东联盟佣金链接，union.jd.com 后台生成）
+        <input id="ad-link" placeholder="https://union-click.jd.com/jdc?..." style="margin-top:6px">
+      </label>
+      <div>
+        <div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:6px">④ 计费方式（用于你对账；京东联盟实际按 CPS/CPC 结算）</div>
+        <div style="display:flex;gap:16px;font-size:13.5px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px"><input type="radio" name="admodel" value="CPM" style="width:auto"> CPM 按展示</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="radio" name="admodel" value="CPC" style="width:auto"> CPC 按点击</label>
+          <label style="display:flex;align-items:center;gap:6px"><input type="radio" name="admodel" value="CPS" style="width:auto"> CPS 按成交</label>
+        </div>
+      </div>
+      <label style="font-size:13px;display:flex;align-items:center;gap:8px"><input type="checkbox" id="ad-enabled" style="width:auto" checked> 在该广告位展示（关闭则显示占位虚线框）</label>
+      <div class="row">
+        <button onclick="saveAd()">保存广告配置</button>
+        <button style="background:#6B7280" onclick="loadAds()">刷新</button>
+      </div>
+      <div class="msg" id="msgAd"></div>
+      <div class="hint">点击经本站 /api/adclick 计数后 302 跳京东，数据见下方「广告数据」。未配置或关闭时广告位保持占位样式，不影响页面。</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>📈 广告数据（点击）<button style="font-size:12px;padding:4px 14px" onclick="loadAdData()">刷新</button></h2>
+    <div id="adDataBox"><p style="font-size:13px;color:var(--ink-soft)">登录后显示各广告位点击量。</p></div>
+    <div class="hint">浏览/点击计数来自 Cloudflare KV（需绑定 VIEWS_KV）。</div>
+  </div>
+
+  <div class="panel">
     <h2>💬 评论管理</h2>
     <p style="font-size:13.5px;color:var(--ink-soft)">评论存储在 GitHub Discussions，管理（删除/锁定/举报）请前往：
       <a href="https://github.com/YanFeng-Ding/vc-site/discussions" target="_blank" style="color:var(--accent)">github.com/YanFeng-Ding/vc-site/discussions ↗</a></p>
@@ -97,7 +136,7 @@
 <script>
 const KEY = 'vc_admin_key';
 document.getElementById('key').value = localStorage.getItem(KEY) || '';
-function saveKey(){ localStorage.setItem(KEY, document.getElementById('key').value.trim()); auth(); if(k()){ loadViews(); loadSubs(); } }
+function saveKey(){ localStorage.setItem(KEY, document.getElementById('key').value.trim()); auth(); if(k()){ loadViews(); loadSubs(); loadAds(); loadAdData(); } }
 function k(){ return localStorage.getItem(KEY) || ''; }
 function auth(){ document.getElementById('st').textContent = k() ? '已填密码' : '未登录'; }
 auth();
@@ -197,7 +236,84 @@ async function loadViews(){
     box.innerHTML = rows ? `<table><tr><th>页面</th><th>浏览量</th></tr>${rows}</table>` : '<p style="font-size:13px;color:var(--ink-soft)">暂无数据（计数器刚上线）。</p>';
   } catch(e){ box.innerHTML='<p style="font-size:13px;color:#c0392b">加载失败：'+e+'</p>'; }
 }
-if (k()) { loadViews(); loadSubs(); }
+
+/* ---------- 广告位管理（京东图书） ---------- */
+const AD_SLOTS = { "index-sidebar": "首页侧栏 300×250", "briefings-sidebar": "前沿风向页侧栏 300×250", "article-bottom": "文章页底部通栏" };
+const AD_BOOKS = {
+  "power-law": { title: "风险投资史（The Power Law）", cover: "assets/covers/power-law.jpg" },
+  "venture-deals": { title: "风险投资交易（Venture Deals）", cover: "assets/covers/venture-deals.jpg" },
+  "more-money": { title: "富可敌国（More Money Than God）", cover: "assets/covers/more-money.jpg" },
+  "zero-to-one": { title: "从0到1（Zero to One）", cover: "assets/covers/zero-to-one.jpg" },
+  "innovator": { title: "创新者的窘境（The Innovator's Dilemma）", cover: "assets/covers/innovator.jpg" },
+  "poor-charlie": { title: "穷查理宝典（Poor Charlie's Almanack）", cover: "assets/covers/poor-charlie.jpg" },
+  "intelligent-investor": { title: "聪明的投资者（The Intelligent Investor）", cover: "assets/covers/intelligent-investor.jpg" },
+  "value-zhanglei": { title: "价值", cover: "assets/covers/value-zhanglei.jpg" }
+};
+let adCfg = { books: {}, slots: {} };
+let adSlot = "index-sidebar";
+function adEsc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+function adPickers(){
+  document.getElementById("ad-slots").innerHTML = Object.keys(AD_SLOTS).map(k =>
+    '<button type="button" onclick="pickSlot(this)" data-slot="'+k+'" style="font-size:12.5px;padding:7px 14px;background:'+(k===adSlot?"var(--accent)":"#6B7280")+'">'+adEsc(AD_SLOTS[k])+'</button>').join("");
+  document.getElementById("ad-books").innerHTML = Object.keys(AD_BOOKS).map(k => {
+    const on = ((adCfg.slots||{})[adSlot]||{}).book === k;
+    return '<button type="button" onclick="pickBook(this)" data-book="'+k+'" style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding:6px 12px;background:'+(on?"var(--accent)":"#6B7280")+'">' +
+      '<img src="'+AD_BOOKS[k].cover+'" alt="" style="width:22px;height:30px;object-fit:cover;border-radius:3px">'+adEsc(AD_BOOKS[k].title)+'</button>';
+  }).join("");
+}
+function pickSlot(btn){ adSlot = btn.getAttribute("data-slot"); adPickers(); fillAdForm(); }
+function pickBook(btn){
+  const bk = btn.getAttribute("data-book");
+  adCfg.slots = adCfg.slots || {};
+  adCfg.slots[adSlot] = Object.assign({}, adCfg.slots[adSlot], { book: bk });
+  adPickers(); fillAdForm();
+}
+function fillAdForm(){
+  const s = (adCfg.slots||{})[adSlot] || {};
+  const b = (adCfg.books||{})[s.book] || {};
+  document.getElementById("ad-link").value = b.link || "";
+  const r = document.querySelector('input[name="admodel"][value="'+(b.model||"CPS")+'"]');
+  if (r) r.checked = true;
+  document.getElementById("ad-enabled").checked = !!s.enabled;
+}
+function loadAds(){
+  return fetch("/api/ads").then(r=>r.json()).then(j=>{ adCfg = j; adPickers(); fillAdForm(); }).catch(()=>{});
+}
+async function saveAd(){
+  const box = document.getElementById("msgAd");
+  const s = (adCfg.slots||{})[adSlot] || {};
+  const bk = s.book;
+  if (!bk){ box.className="msg err"; box.textContent="先选一本书。"; return; }
+  const link = document.getElementById("ad-link").value.trim();
+  const model = (document.querySelector('input[name="admodel"]:checked')||{}).value || "CPS";
+  const enabled = document.getElementById("ad-enabled").checked;
+  box.className="msg"; box.textContent="保存中…";
+  try {
+    const cur = await (await fetch("/api/ads")).json();
+    cur.books = cur.books || {}; cur.slots = cur.slots || {};
+    const b = cur.books[bk] || {};
+    cur.books[bk] = { title: b.title || AD_BOOKS[bk].title, author: b.author || "",
+                      cover: b.cover || AD_BOOKS[bk].cover, link: link, model: model };
+    cur.slots[adSlot] = { enabled: enabled, book: bk, note: (cur.slots[adSlot]||{}).note || AD_SLOTS[adSlot] };
+    const r = await fetch("/api/ads", { method:"POST", headers:{"Content-Type":"application/json","X-Admin-Key":k()},
+      body: JSON.stringify(cur) });
+    const j = await r.json().catch(()=>({}));
+    if (r.ok && j.ok){ box.className="msg ok"; box.textContent="已保存，全站即时生效。"; adCfg = cur; adPickers(); fillAdForm(); }
+    else if (r.status===401){ box.className="msg err"; box.textContent="密码不对：请检查顶部管理密码。"; }
+    else { box.className="msg err"; box.textContent="失败："+(j.error||r.status); }
+  } catch(e){ box.className="msg err"; box.textContent="网络异常："+e; }
+}
+function loadAdData(){
+  const box = document.getElementById("adDataBox");
+  fetch("/api/views", { headers:{"X-Admin-Key":k()} }).then(r=>r.json()).then(j=>{
+    const rows = Object.keys(j).filter(x=>x.indexOf("ad:")===0).map(x=>({k:x.slice(3),v:j[x]})).sort((a,b)=>b.v-a.v);
+    box.innerHTML = rows.length
+      ? '<table><tr><th>广告位</th><th style="width:90px">点击</th></tr>'+rows.map(r=>'<tr><td>'+adEsc(r.k)+'</td><td>'+r.v+'</td></tr>').join("")+'</table>'
+      : '<p style="font-size:13px;color:var(--ink-soft)">暂无点击数据（需绑定 VIEWS_KV 计数器）。</p>';
+  }).catch(()=>{ box.innerHTML='<p style="font-size:13px;color:#c0392b">加载失败。</p>'; });
+}
+
+if (k()) { loadViews(); loadSubs(); loadAds(); loadAdData(); }
 </script>
 </body>
 </html>

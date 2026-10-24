@@ -65,8 +65,8 @@ header { border-bottom: 1px solid var(--line); background: var(--bg); position: 
 .card:hover h3 { color: var(--accent); }
 .card p { font-size: 14.5px; color: var(--ink-soft); margin-top: 6px; }
 .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.feature .art { height: 200px; background: linear-gradient(135deg, #6D28D9 0%, #8B5CF6 45%, #F97316 100%); position: relative; }
-.feature .art svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .35; }
+.feature .art { height: 200px; background: #060606; position: relative; overflow: hidden; }
+.feature .art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .feature .body { padding: 24px; }
 .feature h3 { font-family: var(--serif); font-size: 26px; line-height: 1.35; margin-top: 8px; }
 .feature h3 a:hover { color: var(--accent); }
@@ -80,6 +80,25 @@ header { border-bottom: 1px solid var(--line); background: var(--bg); position: 
 .theme-list a { font-size: 13.5px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; }
 .theme-list a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .ad-slot { border: 1.5px dashed #C9C5BA; border-radius: 12px; padding: 18px; text-align: center; color: #A29D91; font-size: 12.5px; background: repeating-linear-gradient(45deg,#FBFAF7,#FBFAF7 12px,#F5F3EC 12px,#F5F3EC 24px); }
+.ad-slot.ad-empty { display: block; }
+.ad-slot.ad-filled { border-style: solid; border-color: var(--line); padding: 0; background: var(--surface); overflow: hidden; }
+.ad-card { display: flex; gap: 14px; align-items: center; padding: 14px; text-align: left; }
+.ad-card:hover { background: var(--accent-soft); }
+.ad-cover { width: 76px; height: 104px; object-fit: cover; border-radius: 6px; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,.14); }
+.ad-info { display: grid; gap: 4px; min-width: 0; }
+.ad-kicker { font-size: 10.5px; letter-spacing: 1.5px; color: var(--hint); text-transform: uppercase; }
+.ad-title { font-family: var(--serif); font-size: 15.5px; font-weight: 700; line-height: 1.4; }
+.ad-author { font-size: 12px; color: var(--ink-soft); }
+.ad-cta { margin-top: 4px; font-size: 12.5px; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.ad-model { font-size: 10px; font-weight: 700; letter-spacing: .5px; padding: 1px 6px; border-radius: 5px; background: var(--accent); color: #fff; }
+/* 文章底部通栏广告 */
+.ad-slot.ad-wide { margin: 34px 0 8px; }
+.ad-slot.ad-wide .ad-card { padding: 16px 18px; }
+.ad-slot.ad-wide .ad-cover { width: 64px; height: 88px; }
+@media (prefers-color-scheme: dark) {
+  .ad-slot.ad-filled { background: #1C1B17; }
+  .ad-card:hover { background: #26241F; }
+}
 
 /* Briefings timeline */
 .timeline { border-left: 2px solid var(--line); margin-left: 6px; padding-left: 26px; display: grid; gap: 28px; }

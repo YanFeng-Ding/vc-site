@@ -3,19 +3,31 @@
 流程：读 _queue.md → 抓微信文章 → 生成 brief 页 → 插入 briefings.html 时间线 →
      重写 _queue.md（保留失败项）→ git 提交推送（触发 CF Pages 构建）。
 """
-import os, re, sys, json, html, base64, pathlib, datetime, urllib.request
+import os, re, sys, json, html, base64, pathlib, datetime, time, urllib.request
 
 REPO_DIR = pathlib.Path(os.environ.get("GITHUB_WORKSPACE", "."))
 SITE = REPO_DIR
 QUEUE = SITE / "_queue.md"
 UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 "
       "(KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1")
+# 机房 IP（GitHub Actions）连续抓微信易触发风控：多 UA 轮换 + 重试退避
+UAS = [UA,
+       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+       "Mozilla/5.0 (iPad; CPU OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"]
 ALLOWED = {"p","strong","em","b","i","br","blockquote","ul","ol","li","h1","h2","h3","h4","img","a","table","thead","tbody","tr","td","th"}
 
-def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read().decode("utf-8", "ignore")
+def fetch(url, retries=3):
+    last = None
+    for i in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UAS[i % len(UAS)]})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.read().decode("utf-8", "ignore")
+        except Exception as e:
+            last = e
+            print(f"    fetch retry {i+1}/{retries}: {e}")
+            time.sleep(2 * (i + 1))
+    raise last
 
 def extract(page):
     m = re.search(r'id="activity-name"[^>]*>([\s\S]*?)</h1>', page)
@@ -81,13 +93,16 @@ def meta_extract(page, fallback_date):
         # 音频/极短帖：og:title 只有标题（≥6 字）时降级为标题索引卡，避免队列卡死
         if not m_t or len(body.strip()) < 6:
             return None
-        paras = [body.strip(), "本条为公众号音频/短讯节目，完整内容请点击上方「阅读公众号原文」收听或查看。"]
+        paras = [body.strip(), "本条原文内容较短，或已被发布者删除/隐藏，暂无法全文收录；请点击上方「阅读公众号原文」查看原文。"]
         clean_html = "".join(f"<p>{html.escape(x)}</p>" for x in paras)
         title = paras[0][:60]
         return title, fallback_date, clean_html, body
     m = re.search(r"window\.ct\s*=\s*'?(\d{9,11})", page) or re.search(r"\bct\s*=\s*['\"]?(1[6-9]\d{8})", page)
     date = datetime.datetime.fromtimestamp(int(m.group(1))).strftime("%Y-%m-%d") if m else fallback_date
     paras = [x.strip() for x in body.split("\n") if x.strip()]
+    if "js_content" not in page:
+        # 页面无正文容器：原文已被发布者删除/隐藏，只保留标题导语并附说明
+        paras.append("本条原文内容已被发布者删除/隐藏，暂无法全文收录；请点击上方「阅读公众号原文」查看原文。")
     clean_html = "".join(f"<p>{html.escape(x)}</p>" for x in paras)
     return paras[0][:60], date, clean_html, body
 
