@@ -1,18 +1,78 @@
 {
   "updated": "2026-10-24",
   "books": {
-    "power-law": { "title": "风险投资史（The Power Law）", "author": "Sebastian Mallaby · 著", "cover": "assets/covers/power-law.jpg", "link": "https://search.jd.com/Search?keyword=%E9%A3%8E%E9%99%A9%E6%8A%95%E8%B5%84%E5%8F%B2&enc=utf-8", "model": "CPS" },
-    "venture-deals": { "title": "风险投资交易（Venture Deals）", "author": "Brad Feld / Jason Mendelson · 著", "cover": "assets/covers/venture-deals.jpg", "link": "https://search.jd.com/Search?keyword=%E9%A3%8E%E9%99%A9%E6%8A%95%E8%B5%84%E4%BA%A4%E6%98%93&enc=utf-8", "model": "CPS" },
-    "more-money": { "title": "富可敌国（More Money Than God）", "author": "Sebastian Mallaby · 著", "cover": "assets/covers/more-money.jpg", "link": "https://search.jd.com/Search?keyword=%E5%AF%8C%E5%8F%AF%E6%95%8C%E5%9B%BD&enc=utf-8", "model": "CPS" },
-    "zero-to-one": { "title": "从0到1（Zero to One）", "author": "Peter Thiel / Blake Masters · 著", "cover": "assets/covers/zero-to-one.jpg", "link": "https://search.jd.com/Search?keyword=%E4%BB%8E0%E5%88%B01&enc=utf-8", "model": "CPS" },
-    "innovator": { "title": "创新者的窘境（The Innovator's Dilemma）", "author": "Clayton Christensen · 著", "cover": "assets/covers/innovator.jpg", "link": "https://search.jd.com/Search?keyword=%E5%88%9B%E6%96%B0%E8%80%85%E7%9A%84%E7%AA%98%E5%A2%83&enc=utf-8", "model": "CPS" },
-    "poor-charlie": { "title": "穷查理宝典（Poor Charlie's Almanack）", "author": "Charlie Munger · 著", "cover": "assets/covers/poor-charlie.jpg", "link": "https://search.jd.com/Search?keyword=%E7%A9%B7%E6%9F%A5%E7%90%86%E5%AE%9D%E5%85%B8&enc=utf-8", "model": "CPS" },
-    "intelligent-investor": { "title": "聪明的投资者（The Intelligent Investor）", "author": "Benjamin Graham · 著", "cover": "assets/covers/intelligent-investor.jpg", "link": "https://search.jd.com/Search?keyword=%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85&enc=utf-8", "model": "CPS" },
-    "value-zhanglei": { "title": "价值", "author": "张磊 · 著", "cover": "assets/covers/value-zhanglei.jpg", "link": "https://search.jd.com/Search?keyword=%E4%BB%B7%E5%80%BC%20%E5%BC%A0%E7%A3%8A&enc=utf-8", "model": "CPS" }
+    "power-law": {
+      "title": "风险投资史（The Power Law）",
+      "author": "Sebastian Mallaby · 著",
+      "cover": "assets/covers/power-law.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E9%A3%8E%E9%99%A9%E6%8A%95%E8%B5%84%E5%8F%B2&enc=utf-8",
+      "model": "CPC"
+    },
+    "venture-deals": {
+      "title": "风险投资交易（Venture Deals）",
+      "author": "Brad Feld / Jason Mendelson · 著",
+      "cover": "assets/covers/venture-deals.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E9%A3%8E%E9%99%A9%E6%8A%95%E8%B5%84%E4%BA%A4%E6%98%93&enc=utf-8",
+      "model": "CPS"
+    },
+    "more-money": {
+      "title": "富可敌国（More Money Than God）",
+      "author": "Sebastian Mallaby · 著",
+      "cover": "assets/covers/more-money.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E5%AF%8C%E5%8F%AF%E6%95%8C%E5%9B%BD&enc=utf-8",
+      "model": "CPS"
+    },
+    "zero-to-one": {
+      "title": "从0到1（Zero to One）",
+      "author": "Peter Thiel / Blake Masters · 著",
+      "cover": "assets/covers/zero-to-one.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E4%BB%8E0%E5%88%B01&enc=utf-8",
+      "model": "CPS"
+    },
+    "innovator": {
+      "title": "创新者的窘境（The Innovator's Dilemma）",
+      "author": "Clayton Christensen · 著",
+      "cover": "assets/covers/innovator.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E5%88%9B%E6%96%B0%E8%80%85%E7%9A%84%E7%AA%98%E5%A2%83&enc=utf-8",
+      "model": "CPS"
+    },
+    "poor-charlie": {
+      "title": "穷查理宝典（Poor Charlie's Almanack）",
+      "author": "Charlie Munger · 著",
+      "cover": "assets/covers/poor-charlie.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E7%A9%B7%E6%9F%A5%E7%90%86%E5%AE%9D%E5%85%B8&enc=utf-8",
+      "model": "CPS"
+    },
+    "intelligent-investor": {
+      "title": "聪明的投资者（The Intelligent Investor）",
+      "author": "Benjamin Graham · 著",
+      "cover": "assets/covers/intelligent-investor.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E8%81%AA%E6%98%8E%E7%9A%84%E6%8A%95%E8%B5%84%E8%80%85&enc=utf-8",
+      "model": "CPS"
+    },
+    "value-zhanglei": {
+      "title": "价值",
+      "author": "张磊 · 著",
+      "cover": "assets/covers/value-zhanglei.jpg",
+      "link": "https://search.jd.com/Search?keyword=%E4%BB%B7%E5%80%BC%20%E5%BC%A0%E7%A3%8A&enc=utf-8",
+      "model": "CPS"
+    }
   },
   "slots": {
-    "index-sidebar": { "enabled": true, "book": "power-law", "note": "首页侧栏 300×250" },
-    "briefings-sidebar": { "enabled": true, "book": "venture-deals", "note": "前沿风向页侧栏 300×250" },
-    "article-bottom": { "enabled": true, "book": "zero-to-one", "note": "文章页底部通栏" }
+    "index-sidebar": {
+      "enabled": true,
+      "book": "power-law",
+      "note": "首页侧栏 300×250"
+    },
+    "briefings-sidebar": {
+      "enabled": true,
+      "book": "venture-deals",
+      "note": "前沿风向页侧栏 300×250"
+    },
+    "article-bottom": {
+      "enabled": true,
+      "book": "power-law",
+      "note": "文章页底部通栏"
+    }
   }
 }
