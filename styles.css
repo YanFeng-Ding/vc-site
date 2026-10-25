@@ -29,14 +29,14 @@ img { max-width: 100%; }
 /* Header */
 header { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-.brand { font-family: var(--sans); font-size: 22px; font-weight: 700; letter-spacing: 0; color: var(--ink); display: inline-flex; align-items: center; gap: 9px; }
+.brand { font-family: var(--sans); font-size: 18px; font-weight: 700; letter-spacing: 0; color: var(--ink); display: inline-flex; align-items: center; gap: 8px; }
 .brand em { font-style: normal; color: var(--ink); }
-.brand .logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: center 25%; display: block; flex: none; }
+.brand .logo { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; object-position: center 25%; display: block; flex: none; }
 .nav-links { display: flex; gap: 26px; font-size: 14.5px; }
 .nav-links a { color: var(--ink-soft); padding: 4px 0; border-bottom: 2px solid transparent; }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a.active { color: var(--ink); border-color: var(--accent); }
-.sub-btn { background: var(--ink); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 14px; border: none; cursor: pointer; }
+.sub-btn { background: var(--ink); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 18px; font-weight: 700; font-family: var(--sans); border: none; cursor: pointer; }
 .sub-btn:hover { background: var(--accent); }
 
 /* Hero */
