@@ -29,6 +29,45 @@ def fetch(url, retries=3):
             time.sleep(2 * (i + 1))
     raise last
 
+def _js_unescape(s):
+    """还原 JS 单引号字符串里的转义（\\x0a 换行、\\' 引号等）"""
+    s = s.replace("\\x0a", "\n").replace("\\x0d", "\n").replace("\\x0b", "\n")
+    s = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), s)
+    s = s.replace("\\n", "\n").replace("\\r", "\n").replace("\\t", "\t")
+    s = s.replace("\\'", "'").replace('\\"', '"').replace("\\\\", "\\")
+    return s
+
+RICH_TAG = re.compile(r"</?(?:p|br|img|strong|em|b|i|span|div|section|a|ul|ol|li|h[1-4]|blockquote|table|tr|td|th)\b", re.I)
+
+def extract_new_text(page):
+    """微信新版图文（item_show_type=10）：无 js_content 容器，正文在
+    window.cgiDataNew.content_noencode（纯文本，\\x0a 分段）。
+    返回 (title, raw_time, content_html) 或 None"""
+    m = re.search(r"content_noencode:\s*'((?:[^'\\]|\\.)*)'", page)
+    if not m:
+        return None
+    body = _js_unescape(m.group(1)).strip()
+    if len(body) < 20:
+        return None
+    title = ""
+    cands = re.findall(r"\btitle:\s*'((?:[^'\\]|\\.)*)'", page[:m.start()])
+    if cands:
+        title = _js_unescape(cands[-1]).strip()
+    if not title:
+        og = re.search(r'og:title" content="([^"]*)"', page)
+        title = html.unescape(og.group(1)).strip() if og else ""
+    raw_time = ""
+    cm = re.search(r"create_time:\s*'([^']*)'", page[m.end():])
+    if cm:
+        raw_time = cm.group(1).strip()          # '2026-10-27 20:04'
+    chunks = []
+    for para in [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]:
+        if RICH_TAG.search(para):
+            chunks.append(para)                  # 富文本片段，交给 clean()
+        else:
+            chunks.append("<p>" + html.escape(para) + "</p>")
+    return title, raw_time, "".join(chunks)
+
 def extract(page):
     m = re.search(r'id="activity-name"[^>]*>([\s\S]*?)</h1>', page)
     title = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(m.group(1)))).strip() if m else ""
@@ -52,6 +91,12 @@ def extract(page):
             if depth == 0:
                 content = page[i:t.start()]
                 break
+    if not content:
+        # 新版图文：无 js_content，回落到 cgiDataNew.content_noencode
+        new = extract_new_text(page)
+        if new:
+            ntitle, ntime, nhtml = new
+            return ntitle or title, ntime or raw_time, nhtml
     return title, raw_time, content
 
 def clean(raw):
@@ -90,6 +135,13 @@ def meta_extract(page, fallback_date):
         body = desc
     body = body.replace("\\n", "\n").replace("\\x0a", "\n")
     if len(body.strip()) < 30:
+        # og 元数据为空（微信新版图文常见）：回落 cgiDataNew.content_noencode
+        new = extract_new_text(page)
+        if new:
+            ntitle, ntime, nhtml = new
+            ntext = re.sub(r"<[^>]+>", "", nhtml).strip()
+            if len(ntext) >= 30:
+                return ntitle or body.strip(), parse_date(ntime) if ntime else fallback_date, nhtml, ntext
         # 音频/极短帖：og:title 只有标题（≥6 字）时降级为标题索引卡，避免队列卡死
         if not m_t or len(body.strip()) < 6:
             return None
