@@ -1,6 +1,14 @@
 {
-"updated": "2026-10-29",
+"updated": "2026-10-30",
 "posts": [
+{
+"file": "brief-20261030-01.html",
+"section": "前沿风向",
+"title": "赛道火爆！Replika女创始人杀回AI个人助手",
+"date": "2026-10-30",
+"mins": "2",
+"desc": "10月29日，AI个人助手公司Wabi宣布完成5500万美元融资，IVP领投，a16z、Forerunner、Amazon Alexa Fund跟投，估值12.5亿美元。天使名单读起来像硅谷名人录：Marc Beniof"
+},
 {
 "file": "brief-20261029-01.html",
 "section": "前沿风向",
@@ -8,6 +16,14 @@
 "date": "2026-10-29",
 "mins": "2",
 "desc": "YC每半年发布一份RSF（Request for Startups）创业公司招募方向，正是硅谷VC圈投资的风向标。昨日，YC公布了Winter 2027批次最新招募方向，第一句就说得很明白：AI最大的瓶颈，已经不在模型里"
+},
+{
+"file": "brief-20261029-02.html",
+"section": "前沿风向",
+"title": "卫星上天自主拼装,丰田押注2千万美元种子轮",
+"date": "2026-10-29",
+"mins": "3",
+"desc": "火箭有效载荷就这么多、整流罩就这么大，想上天的天线、太阳能阵列、算力模块却越做越大。传统解法是折叠展开，折几次就到极限。MIT给出的答案是：拆成瓦片，发射上去自己拼装。近日，太空科技公司Rendezvous Roboti"
 },
 {
 "file": "brief-20261028-02.html",
