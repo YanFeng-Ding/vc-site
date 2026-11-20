@@ -1,6 +1,30 @@
 {
-"updated": "2026-11-13",
+"updated": "2026-11-20",
 "posts": [
+{
+"file": "brief-20261118-03.html",
+"section": "前沿风向",
+"title": "Genesis AI：华人机器人公司A轮融资5亿美元",
+"date": "2026-11-18",
+"mins": "1",
+"desc": "华人科学家周衔创立的机器人公司Genesis AI刚刚宣布完成5亿美元A轮融资，投后估值35亿美元。Khosla Ventures、Premji Invest和Eclipse联合领投，英伟达、AMD等参与投资。公司去年7"
+},
+{
+"file": "brief-20261116-02.html",
+"section": "前沿风向",
+"title": "AI行业全景图：30家百亿美金创企背后真相",
+"date": "2026-11-16",
+"mins": "2",
+"desc": "硅谷老牌VC投资机构Menlo Ventures（2023年领投了Anthropic首轮融资）合伙人Deedy Das昨日放出了一张含金量极高的AI行业最新全景图。他梳理了截至2026年11月14日，全球同时满足估值超1"
+},
+{
+"file": "brief-20261115-01.html",
+"section": "前沿风向",
+"title": "黄仁勋离任，AI创业融资寒冬可能提前到来",
+"date": "2026-11-15",
+"mins": "1",
+"desc": "黄仁勋执掌英伟达期间，公司持续以战略投资者的身份深度参与全球AI创业生态。仅2026年，英伟达就参与了105轮融资，且多次担任最大投资方，累计投入数百亿美元，覆盖云计算基础设施（Neocloud）、推理服务、开源模型等关"
+},
 {
 "file": "article-20261112-02.html",
 "section": "深度",
