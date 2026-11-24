@@ -69,3 +69,4 @@ git push -u origin main
 | 邮件订阅 | 注册 Buttondown（免费），替换首页订阅表单 action |
 | 广告 | 过 AdSense 门槛后（需一定内容量），把广告占位替换为广告单元代码 |
 | 统计 | 页脚前插入 Umami / Plausible / Cloudflare Analytics 脚本 |
+> 部署备注：双通道自动部署（Cloudflare Pages + GitHub Pages）；push 后两者均会重建。最近唤醒：2026-11-24 11:20 (CST)。
